@@ -22,9 +22,13 @@ public class SpeechRecognizerMain {
 	private String speechRecognitionResult; //This String contains the Result that is coming back from SpeechRecognizer
 	
 	private Computer generator;
-	private Synonyms computerSynonyms = new Synonyms(new String[] {"compute", "computers", "conduit", "come to a jerk", "and", "i'm sure", "can cure", "kosher", "compare", "club", "computer", "come shop", "crunches", "come to", "come true", "i'm cured", "clump you okay", "clump you would have"});
+	private Synonyms computerSynonyms = new Synonyms(new String[] {"concerts", "compute", "computers", "conduit", "come to a jerk", "and", "i'm sure", "can cure", "kosher", "compare", "club", "computer", "come shop", "crunches", "come to", "come true", "i'm cured", "clump you okay", "clump you would have"});
 	
-	private boolean isEnabled = false;
+	private boolean isEnabled = false, hasNextQuestion = false;
+	
+	public void askQuestion(boolean question) {
+		this.hasNextQuestion = question;
+	}
 	
 	//-----------------Lock Variables-----------------------------
 	/**
@@ -204,9 +208,10 @@ public class SpeechRecognizerMain {
 	 * @param speechWords
 	 */
 	public void makeDecision(String speech , List<WordResult> speechWords) {
-		if(isEnabled) {
-			generator.say(speech);
+		if(isEnabled || hasNextQuestion) {
 			isEnabled = false;
+			hasNextQuestion = false;
+			generator.say(speech);
 		} else if(computerSynonyms.equals(speech)) {
 			Voice.say("Yes?", false, true);
 			isEnabled = true;
