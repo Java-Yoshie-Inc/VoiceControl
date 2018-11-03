@@ -2,15 +2,10 @@ package computer.model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
+import java.util.Calendar;
 import java.util.List;
 
 import com.ibm.icu.text.DateFormatSymbols;
-
->>>>>>> d3e9fad807388197bbe36baadfb70c0f49401ce7
-import java.util.Calendar;
-import java.util.List;
 
 import computer.model.Chat.Sender;
 
@@ -18,11 +13,6 @@ public class Computer {
 
 	private static final List<Phrase> PHRASES = new ArrayList<Phrase>();
 	private final SpeechRecognizerMain recognizer;
-<<<<<<< HEAD
-	
-=======
-
->>>>>>> d3e9fad807388197bbe36baadfb70c0f49401ce7
 	static {
 		Chat.init();
 		Voice.setType(2);
@@ -37,10 +27,7 @@ public class Computer {
 			}
 		}));
 		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
-<<<<<<< HEAD
-=======
 		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
->>>>>>> d3e9fad807388197bbe36baadfb70c0f49401ce7
 		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
 		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
 			@Override
