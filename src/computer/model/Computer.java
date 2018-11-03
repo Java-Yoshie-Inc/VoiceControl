@@ -30,8 +30,7 @@ public class Computer {
 						Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 					}
 				}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening" }),
-				new String[] { "Hello", "Good morning", "Hi" }));
+		PHRASES.add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening" }), new String[] { "Hello", "Good morning", "Hi" }));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), new String[] { "Oh, I am fine!", "Great" }));
 		PHRASES.add(new Phrase(
 				new Synonyms(
@@ -45,8 +44,6 @@ public class Computer {
 						Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 					}
 				}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning" }), "Hello"));
-		PHRASES.add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning" }), "Hello"));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
 		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
 			@Override
@@ -83,16 +80,37 @@ public class Computer {
 		}));
 		PHRASES.add(new Phrase(new Synonyms(new String[] { "where is", "where can I find" }), new Action() {
 			@Override
-			public void run(String words) {
+			public void run(String text) {
 				try {
-					String location = "Hamburg";
+					String location = text.split(" ")[text.split(" ").length-1];
 					Desktop.getDesktop().browse(new URI("https://www.google.de/maps/place/" + location));
 				} catch (IOException | URISyntaxException e) {
 					e.printStackTrace();
 				}
 			}
 		}));
-//		Runtime.getRuntime().exec("shutdown /h");
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"Shut down my computer"}), new Action() {
+			@Override
+			public void run(String text) {
+				Voice.say("Your computer will shut down in one minute.");
+				try {
+					Runtime.getRuntime().exec("shutdown /s /t 60");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}));
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"Cancel shut down my computer"}), new Action() {
+			@Override
+			public void run(String text) {
+				Voice.say("Yes");
+				try {
+					Runtime.getRuntime().exec("shutdown /a");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}));
 	}
 
 	public static void main(String[] args) {
