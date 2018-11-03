@@ -22,7 +22,6 @@ public class Computer {
 				Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 			}
 		}));
-		
 		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
 		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
@@ -30,6 +29,14 @@ public class Computer {
 			@Override
 			public void run() {
 				System.exit(0);
+			}
+		}));
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the date"}), new Action() {
+			@Override
+			public void run() {
+				Calendar cal = Calendar.getInstance();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd:mm:yyy");
+				Voice.say(sdf.format(cal.getTime()));
 			}
 		}));
 	}
