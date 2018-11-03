@@ -2,6 +2,9 @@ package computer.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ibm.icu.text.DateFormatSymbols;
+
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
@@ -35,8 +38,9 @@ public class Computer {
 			@Override
 			public void run() {
 				Calendar cal = Calendar.getInstance();
-				SimpleDateFormat sdf = new SimpleDateFormat("dd:mm:yyy");
-				Voice.say(sdf.format(cal.getTime()));
+				SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy");
+				String[] date = sdf.format(cal.getTime()).split(":");
+				Voice.say("Today is the " + date[0] + "nd of " + getMonth(Integer.parseInt(date[1])) + " " + date[2]);
 			}
 		}));
 	}
@@ -67,6 +71,10 @@ public class Computer {
 		}
 
 		System.out.println("Recognized: " + words);
+	}
+	
+	public static String getMonth(int month) {
+	    return new DateFormatSymbols().getMonths()[month-1];
 	}
 
 }
