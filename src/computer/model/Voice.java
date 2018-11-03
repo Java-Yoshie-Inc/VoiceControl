@@ -9,7 +9,8 @@ public class Voice {
 	
 	private static Thread thread;
 	
-	public static void say(String text, boolean print) {
+	public static void say(String text, boolean print, boolean newThread) {
+		tts.stopSpeaking();
 		if(print) {
 			Chat.send(Sender.Bot, text);
 		}
@@ -19,11 +20,19 @@ public class Voice {
 				tts.speak(text, volume, true, true);
 			}
 		});
-		thread.start();
+		if(newThread) {
+			thread.start();
+		} else {
+			thread.run();
+		}
+	}
+	
+	public static void say(String text, boolean newThread) {
+		say(text, true, newThread);
 	}
 	
 	public static void say(String text) {
-		say(text, true);
+		say(text, true, true);
 	}
 	
 	public static void setType(int id) {

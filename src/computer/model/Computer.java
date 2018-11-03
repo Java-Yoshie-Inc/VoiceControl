@@ -92,7 +92,7 @@ public class Computer {
 				}
 			}
 		}));
-//		Runtime.getRuntime().exec("shutdown /h");
+		// Runtime.getRuntime().exec("shutdown /h");
 	}
 
 	public static void main(String[] args) {
@@ -119,7 +119,13 @@ public class Computer {
 		if (bestPhrase != null && highestSimilarity >= 0.2f) {
 			bestPhrase.run(words);
 		} else {
-			Voice.say("I am sorry, I didnt understand that.");
+			try {
+				Voice.say("Searching for " + words, false);
+				String result = Wikipedia.getInformation(words);
+				Voice.say(result);
+			} catch (Exception e) {
+				
+			}
 		}
 	}
 
