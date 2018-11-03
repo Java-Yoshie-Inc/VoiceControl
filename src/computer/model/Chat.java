@@ -33,7 +33,7 @@ public class Chat {
 	private static void createFrame() {
 		frame = new JFrame();
 		frame.setTitle("Chat");
-		frame.setLocationRelativeTo(null);
+		frame.setLocationByPlatform(true);
 		frame.setSize(550, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

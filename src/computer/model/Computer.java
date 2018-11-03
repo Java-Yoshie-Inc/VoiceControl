@@ -1,5 +1,9 @@
 package computer.model;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,9 +28,9 @@ public class Computer {
 				Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning", "Good Evening"}), "Hello"));
-		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, I am fine!"));
-		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning", "Good Evening"}), new String[] {"Hello", "Good morning", "Hi"}));
+		PHRASES.add(new Phrase(new Synonyms("how are you"), new String[] {"Oh, I am fine!", "Great"}));
+		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our service. Au revoir!", new Action() {
 			@Override
 			public void run() {
 				System.exit(0);
@@ -41,6 +45,18 @@ public class Computer {
 				Voice.say("Today is the " + date[0] + "nd of " + getMonth(Integer.parseInt(date[1])) + " " + date[2]);
 			}
 		}));
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"where is", "where can I find"}), new Action() {
+			@Override
+			public void run() {
+				try {
+					String location = "Hamburg";
+					Desktop.getDesktop().browse(new URI("https://www.google.de/maps/place/"+location));
+				} catch (IOException | URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}));
+		//Runtime.getRuntime().exec("shutdown /h");
 	}
 
 	public static void main(String[] args) {
@@ -65,10 +81,10 @@ public class Computer {
 			}
 		}
 
-		if (bestPhrase != null) {
+		if (bestPhrase != null && highestSimilarity >= 0.2f) {
 			bestPhrase.run();
 		} else {
-			Voice.say("I am sorry, I didnt understand that");
+			Voice.say("I am sorry, I didnt understand that.");
 		}
 	}
 	

@@ -1,6 +1,10 @@
 package computer.model;
 
+import java.util.Random;
+
 public class Phrase {
+	
+	private static final Random RANDOM = new Random();
 	
 	private final Synonyms synonyms;
 	private final Action action;
@@ -11,6 +15,16 @@ public class Phrase {
 			@Override
 			public void run() {
 				Voice.say(action);
+			}
+		};
+	}
+	
+	public Phrase(Synonyms synonyms, String[] actions) {
+		this.synonyms = synonyms;
+		this.action = new Action() {
+			@Override
+			public void run() {
+				Voice.say(actions[RANDOM.nextInt(actions.length)]);
 			}
 		};
 	}
