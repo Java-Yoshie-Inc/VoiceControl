@@ -44,16 +44,25 @@ public class Phrase {
 			String[] words = synonym.split(" ");
 			
 			for(String word : text.split(" ")) {
-				boolean contains = false;;
 				for(String word2 : words) {
 					if(word.toLowerCase().equals(word2.toLowerCase())) {
-						contains = true;
+						similarity++;
 						break;
+					} else {
+						for(int i = 3; i < word.length(); i++) {
+							String substring = word.substring(i - 3, i);
+							for(int j = 3; j < word2.length(); j++) {
+								String substring2 = word2.substring(j - 3, j);
+								if(substring.equals(substring2)) {
+									similarity += 0.5;
+									System.out.println(substring);
+									System.out.println(word);
+									System.out.println(word2);
+									System.out.println();
+								}
+							}
+						}
 					}
-				}
-				
-				if(contains) {
-					similarity++;
 				}
 			}
 			
