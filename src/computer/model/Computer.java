@@ -1,20 +1,21 @@
 package computer.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import computer.model.Chat.Sender;
 
 public class Computer {
 
 	private static final List<Phrase> PHRASES = new ArrayList<Phrase>();
 	private final SpeechRecognizerMain recognizer;
-
-	ArrayList<Phrase> phrases = new ArrayList<Phrase>();
-
+	
 	static {
+		Chat.init();
 		Voice.setType(2);
-
+		
 		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the time", "what time is it", "how late is it"}), new Action() {
 			@Override
 			public void run() {
@@ -24,8 +25,7 @@ public class Computer {
 				Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 			}
 		}));
-		System.out.println("sdfsdfsf");
-		//PHRASES.add(new Phrase(String[] {"Hello", "Hi", "Good Morning"}, "Hello"));
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
 		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
 			@Override
@@ -42,11 +42,14 @@ public class Computer {
 	public Computer() {
 		recognizer = new SpeechRecognizerMain(this);
 	}
-
+	
 	public void say(String words) {
+		Chat.send(Sender.User, words);
+		System.out.println("Recognized: " + words);
+		
 		float highestSimilarity = 0;
 		Phrase bestPhrase = null;
-
+		
 		for (Phrase templatePhrase : PHRASES) {
 			if (templatePhrase.getSimilarity(words) > highestSimilarity) {
 				highestSimilarity = templatePhrase.getSimilarity(words);
@@ -59,8 +62,6 @@ public class Computer {
 		} else {
 			Voice.say("I am sorry, I didnt understand that");
 		}
-
-		System.out.println("Recognized: " + words);
 	}
 
 }

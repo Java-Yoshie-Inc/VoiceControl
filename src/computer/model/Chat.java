@@ -18,16 +18,16 @@ public class Chat {
 	
 	public enum Sender {User, Bot}
 	
-	private JFrame frame;
-	private JPanel panel;
-	private JPanel panel2;
-	private JTextArea textArea;
+	private static JFrame frame;
+	private static JPanel panel;
+	private static JPanel panel2;
+	private static JTextArea textArea;
 	
-	public Chat() {
+	public static void init() {
 		createFrame();
 	}
 	
-	private void createFrame() {
+	private static void createFrame() {
 		frame = new JFrame();
 		frame.setTitle("Chat");
 		frame.setLocationRelativeTo(null);
@@ -73,16 +73,10 @@ public class Chat {
 		panel2.add(sendButton, BorderLayout.LINE_END);
 		
 		frame.setVisible(true);
-		
-		send(Sender.User, "What time is it?");
 	}
 	
-	public void send(Sender sender, String message) {
+	public static void send(Sender sender, String message) {
 		textArea.setText(textArea.getText() + sender.toString() +  ": " + message + System.lineSeparator());
 	}
 	
-	public static void main(String[] args) {
-		new Chat();
-	}
-
 }
