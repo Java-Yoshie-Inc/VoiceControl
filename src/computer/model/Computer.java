@@ -24,7 +24,7 @@ public class Computer {
 				Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 			}
 		}));
-		//PHRASES.add(new Phrase(String[] {"Hello", "Hi", "Good Morning"}, "Hello"));
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
 		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
 			@Override
