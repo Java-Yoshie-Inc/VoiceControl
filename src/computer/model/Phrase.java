@@ -20,6 +20,16 @@ public class Phrase {
 		this.action = null;
 	}
 	
+	public Phrase(Synonyms synonyms, Action action) {
+		this.synonyms = synonyms;
+		this.action = new Action() {
+			@Override
+			public void run() {
+				action.run();
+			}
+		};
+	}
+	
 	public Phrase(Synonyms synonyms, String actionText, Action action) {
 		this.synonyms = synonyms;
 		this.action = new Action() {
