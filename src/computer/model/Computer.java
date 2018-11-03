@@ -34,7 +34,7 @@ public class Computer {
 				System.exit(0);
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the date"}), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the date", "what is the day"}), new Action() {
 			@Override
 			public void run() {
 				Calendar cal = Calendar.getInstance();
