@@ -17,7 +17,7 @@ public class Computer {
 		Chat.init();
 		Voice.setType(2);
 		
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the time", "what time is it", "how late is it"}), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"what's the time", "what is the time", "what time is it", "how late is it"}), new Action() {
 			@Override
 			public void run() {
 				Calendar cal = Calendar.getInstance();
@@ -35,7 +35,7 @@ public class Computer {
 				System.exit(0);
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the date", "what is the day"}), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"what's the date", "what is the date", "what is the day"}), new Action() {
 			@Override
 			public void run() {
 				Calendar cal = Calendar.getInstance();
