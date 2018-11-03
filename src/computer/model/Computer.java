@@ -65,11 +65,14 @@ public class Computer {
 								+ date[2]);
 					}
 				}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] { "What is" }), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] { "What is", "Who is" }), new Action() {
 			@Override
 			public void run(String text) {
 				try {
 					String term = text.split("What is ")[0];
+					if(term.contains("Who is")) {
+						term = text.split("Who is ")[0];
+					}
 					if (term != null && !term.equals("")) {
 						String result = Wikipedia.getInformation(term);
 						Voice.say(result, true);
