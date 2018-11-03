@@ -9,5 +9,7 @@
 	<classpathentry kind="lib" path="src/computer/voice-cmu-rms-hsmm-5.2.jar"/>
 	<classpathentry kind="lib" path="src/computer/voice-cmu-slt-hsmm-5.2.jar"/>
 	<classpathentry kind="lib" path="src/computer/voice-dfki-poppy-hsmm-5.2.jar"/>
+	<classpathentry kind="lib" path="src/computer/guava-22.0.jar"/>
+	<classpathentry kind="lib" path="src/computer/jsoup-1.10.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

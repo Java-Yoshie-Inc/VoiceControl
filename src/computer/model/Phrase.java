@@ -13,7 +13,7 @@ public class Phrase {
 		this.synonyms = synonyms;
 		this.action = new Action() {
 			@Override
-			public void run() {
+			public void run(String text) {
 				Voice.say(action);
 			}
 		};
@@ -33,8 +33,8 @@ public class Phrase {
 		this.synonyms = synonyms;
 		this.action = new Action() {
 			@Override
-			public void run() {
-				action.run();
+			public void run(String text) {
+				action.run(text);
 			}
 		};
 	}
@@ -43,9 +43,9 @@ public class Phrase {
 		this.synonyms = synonyms;
 		this.action = new Action() {
 			@Override
-			public void run() {
+			public void run(String text) {
 				Voice.say(actionText);
-				action.run();
+				action.run(text);
 			}
 		};
 	}
@@ -83,9 +83,9 @@ public class Phrase {
 		return highestSimilarity;
 	}
 	
-	public void run() {
+	public void run(String text) {
 		if(action != null) {
-			action.run();
+			action.run(text);
 		}
 	}
 	
