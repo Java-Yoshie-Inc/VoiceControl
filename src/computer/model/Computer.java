@@ -15,20 +15,19 @@ public class Computer {
 	static {
 		Voice.setType(2);
 
-		PHRASES.add(new Phrase("what time is it", new Action() {
+		PHRASES.add(new Phrase(new Synonyms("what is the time"), new Action() {
 			@Override
 			public void run() {
 				Calendar cal = Calendar.getInstance();
 				SimpleDateFormat sdf = new SimpleDateFormat("hh");
 				SimpleDateFormat sdf2 = new SimpleDateFormat("mm");
-				String am = "am";
 				System.out.println(new SimpleDateFormat("HH:mm").format(cal.getTime()));
 				Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 			}
 		}));
 		//PHRASES.add(new Phrase(String[] {"Hello", "Hi", "Good Morning"}, "Hello"));
-		PHRASES.add(new Phrase("How are you", "Oh, i am fine"));
-		PHRASES.add(new Phrase("stop", "Thank you for using our services. Au revoir!", new Action() {
+		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
+		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
 			@Override
 			public void run() {
 				System.exit(0);
@@ -45,13 +44,12 @@ public class Computer {
 	}
 
 	public void say(String words) {
-		Phrase phrase = new Phrase(new Synonyms(words));
 		float highestSimilarity = 0;
 		Phrase bestPhrase = null;
 
 		for (Phrase templatePhrase : PHRASES) {
-			if (templatePhrase.getSimilarity(phrase) > highestSimilarity) {
-				highestSimilarity = templatePhrase.getSimilarity(phrase);
+			if (templatePhrase.getSimilarity(words) > highestSimilarity) {
+				highestSimilarity = templatePhrase.getSimilarity(words);
 				bestPhrase = templatePhrase;
 			}
 		}
@@ -62,7 +60,7 @@ public class Computer {
 			Voice.say("I am sorry, I didnt understand that");
 		}
 
-		System.out.println("Recognized: " + phrase);
+		System.out.println("Recognized: " + words);
 	}
 
 }
