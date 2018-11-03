@@ -23,7 +23,7 @@ public class Phrase {
 		this.synonyms = synonyms;
 		this.action = new Action() {
 			@Override
-			public void run() {
+			public void run(String words) {
 				Voice.say(actions[RANDOM.nextInt(actions.length)]);
 			}
 		};

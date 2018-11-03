@@ -1,14 +1,10 @@
 package computer.model;
 
-<<<<<<< HEAD
 import java.awt.Desktop;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-=======
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
->>>>>>> patrick
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,22 +19,20 @@ public class Computer {
 	private static final List<Phrase> PHRASES = new ArrayList<Phrase>();
 	static {
 		Voice.setType(2);
-<<<<<<< HEAD
-		
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the time", "what time is it", "how late is it"}), new Action() {
-			@Override
-			public void run() {
-				Calendar cal = Calendar.getInstance();
-				SimpleDateFormat sdf = new SimpleDateFormat("hh");
-				SimpleDateFormat sdf2 = new SimpleDateFormat("mm");
-				Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
-			}
-		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning", "Good Evening"}), new String[] {"Hello", "Good morning", "Hi"}));
-		PHRASES.add(new Phrase(new Synonyms("how are you"), new String[] {"Oh, I am fine!", "Great"}));
-		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our service. Au revoir!", new Action() {
-=======
 
+		PHRASES.add(new Phrase(new Synonyms(new String[] { "what is the time", "what time is it", "how late is it" }),
+				new Action() {
+					@Override
+					public void run(String words) {
+						Calendar cal = Calendar.getInstance();
+						SimpleDateFormat sdf = new SimpleDateFormat("hh");
+						SimpleDateFormat sdf2 = new SimpleDateFormat("mm");
+						Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
+					}
+				}));
+		PHRASES.add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening" }),
+				new String[] { "Hello", "Good morning", "Hi" }));
+		PHRASES.add(new Phrase(new Synonyms("how are you"), new String[] { "Oh, I am fine!", "Great" }));
 		PHRASES.add(new Phrase(
 				new Synonyms(
 						new String[] { "what's the time", "what is the time", "what time is it", "how late is it" }),
@@ -55,7 +49,6 @@ public class Computer {
 		PHRASES.add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning" }), "Hello"));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
 		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
->>>>>>> patrick
 			@Override
 			public void run(String gtext) {
 				System.exit(0);
@@ -88,18 +81,18 @@ public class Computer {
 				}
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"where is", "where can I find"}), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] { "where is", "where can I find" }), new Action() {
 			@Override
-			public void run() {
+			public void run(String words) {
 				try {
 					String location = "Hamburg";
-					Desktop.getDesktop().browse(new URI("https://www.google.de/maps/place/"+location));
+					Desktop.getDesktop().browse(new URI("https://www.google.de/maps/place/" + location));
 				} catch (IOException | URISyntaxException e) {
 					e.printStackTrace();
 				}
 			}
 		}));
-		//Runtime.getRuntime().exec("shutdown /h");
+		// Runtime.getRuntime().exec("shutdown /h");
 	}
 
 	public static void main(String[] args) {
@@ -113,12 +106,7 @@ public class Computer {
 
 	public void say(String words) {
 		Chat.send(Sender.User, words);
-<<<<<<< HEAD
-		
-=======
 		System.out.println("Recognized: " + words);
-
->>>>>>> patrick
 		float highestSimilarity = 0;
 		Phrase bestPhrase = null;
 
@@ -128,14 +116,8 @@ public class Computer {
 				bestPhrase = templatePhrase;
 			}
 		}
-
-<<<<<<< HEAD
 		if (bestPhrase != null && highestSimilarity >= 0.2f) {
-			bestPhrase.run();
-=======
-		if (bestPhrase != null) {
 			bestPhrase.run(words);
->>>>>>> patrick
 		} else {
 			Voice.say("I am sorry, I didnt understand that.");
 		}
