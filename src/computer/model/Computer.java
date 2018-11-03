@@ -17,6 +17,14 @@ import computer.model.Chat.Sender;
 public class Computer {
 
 	private static final List<Phrase> PHRASES = new ArrayList<Phrase>();
+	
+	private boolean asksForYesOrNo = false;
+	private String oldWords;
+	
+	private static Synonyms locationSyns = new Synonyms(new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"} );
+
+	private SpeechRecognizerMain speechRecognizer;
+
 	static {
 		Voice.setType(2);
 
@@ -30,7 +38,8 @@ public class Computer {
 						Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 					}
 				}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening" }), new String[] { "Hello", "Good morning", "Hi" }));
+		PHRASES.add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening" }),
+				new String[] { "Hello", "Good morning", "Hi" }));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), new String[] { "Oh, I am fine!", "Great" }));
 		PHRASES.add(new Phrase(
 				new Synonyms(
@@ -45,9 +54,10 @@ public class Computer {
 					}
 				}));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
-		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
+		PHRASES.add(new Phrase(new Synonyms("stop"), new Action() {
 			@Override
 			public void run(String gtext) {
+				Voice.say("Thank you for using our services. Au revoir!", false);
 				System.exit(0);
 			}
 		}));
@@ -67,11 +77,9 @@ public class Computer {
 			@Override
 			public void run(String text) {
 				try {
-					String term = text.split("What is ")[0];
-					if(term.contains("Who is")) {
-						term = text.split("Who is ")[0];
-					}
+					String term = text.replace("what is ", "").replace("who is ", "");
 					if (term != null && !term.equals("")) {
+						Voice.say("Here are the results for " + term, false);
 						String result = Wikipedia.getInformation(term);
 						Voice.say(result, true);
 					}
@@ -82,18 +90,24 @@ public class Computer {
 				}
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] { "where is", "where can I find" }), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(locationSyns.toArray()), new Action() {
 			@Override
 			public void run(String text) {
 				try {
-					String location = text.split(" ")[text.split(" ").length-1];
+					String location = text;
+					for(String synonym : locationSyns) {
+						location = location.replace(synonym, "");
+					}
+					location = location.trim();
+					Voice.say("Here is the location of " + location);
+					location = location.replace(" ", "+");
 					Desktop.getDesktop().browse(new URI("https://www.google.de/maps/place/" + location));
 				} catch (IOException | URISyntaxException e) {
 					e.printStackTrace();
 				}
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"Shut down my computer"}), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] { "Shut down my computer" }), new Action() {
 			@Override
 			public void run(String text) {
 				Voice.say("Your computer will shut down in one minute.");
@@ -104,7 +118,7 @@ public class Computer {
 				}
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"Cancel shut down my computer"}), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] { "Cancel shut down my computer" }), new Action() {
 			@Override
 			public void run(String text) {
 				Voice.say("Yes");
@@ -115,39 +129,72 @@ public class Computer {
 				}
 			}
 		}));
+		PHRASES.add(new Phrase(new Synonyms("say"), new Action() {
+			@Override
+			public void run(String text) {
+				Voice.say(text.replace("say", ""));
+			}
+		}) {
+			@Override
+			public float getSimilarity(String text) {
+				if(text.split(" ")[0].equals("say")) {
+					return 1f;
+				}
+				return 0f;
+			}
+		});
 	}
 
 	public static void main(String[] args) {
 		new Computer();
 	}
-
+	
 	public Computer() {
 		Chat.init(this);
-		new SpeechRecognizerMain(this);
+		speechRecognizer = new SpeechRecognizerMain(this);
 	}
 
 	public void say(String words) {
 		Chat.send(Sender.User, words);
 		System.out.println("Recognized: " + words);
+
+		if (asksForYesOrNo) {
+			if (words.equals("yes") || words.equals("Yes")) {
+				try {
+					String result = Wikipedia.getInformation(oldWords);
+					Voice.say(result, true);
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				Voice.say("Ok");
+			}
+			asksForYesOrNo = false;
+			return;
+		}
+
 		float highestSimilarity = 0;
 		Phrase bestPhrase = null;
 
 		for (Phrase templatePhrase : PHRASES) {
+			if(bestPhrase != null) {
+				System.out.println(templatePhrase.toString() + " " + bestPhrase.toString());
+			}
 			if (templatePhrase.getSimilarity(words) > highestSimilarity) {
 				highestSimilarity = templatePhrase.getSimilarity(words);
 				bestPhrase = templatePhrase;
 			}
 		}
-		if (bestPhrase != null && highestSimilarity >= 0.2f) {
-			bestPhrase.run(words);
+		if (bestPhrase != null && highestSimilarity >= 0.2f || asksForYesOrNo) {
+			bestPhrase.run(words.toLowerCase());
+			speechRecognizer.askQuestion(false);
 		} else {
-			try {
-				Voice.say("Searching for " + words, false);
-				String result = Wikipedia.getInformation(words);
-				Voice.say(result);
-			} catch (Exception e) {
-				
-			}
+			oldWords = words;
+			Voice.say("Should I search for " + words + "?", false);
+			asksForYesOrNo = true;
+			speechRecognizer.askQuestion(true);
 		}
 	}
 	
