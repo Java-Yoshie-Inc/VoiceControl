@@ -104,7 +104,7 @@ public class SpeechRecognizerMain {
 				recognizer.startRecognition(true);
 				
 				//Information
-				Voice.say("Speech Recognition is running.");
+				Voice.say("Speech Recognition is running.", false);
 				logger.log(Level.INFO, "Speach recognition running...");
 				
 				try {

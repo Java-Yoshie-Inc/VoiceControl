@@ -12,7 +12,6 @@ import computer.model.Chat.Sender;
 public class Computer {
 
 	private static final List<Phrase> PHRASES = new ArrayList<Phrase>();
-	private final SpeechRecognizerMain recognizer;
 	static {
 		Chat.init();
 		Voice.setType(2);
@@ -26,9 +25,8 @@ public class Computer {
 				Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
-		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
-		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning", "Good Evening"}), "Hello"));
+		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, I am fine!"));
 		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
 			@Override
 			public void run() {
@@ -51,7 +49,7 @@ public class Computer {
 	}
 
 	public Computer() {
-		recognizer = new SpeechRecognizerMain(this);
+		new SpeechRecognizerMain(this);
 	}
 	
 	public void say(String words) {
