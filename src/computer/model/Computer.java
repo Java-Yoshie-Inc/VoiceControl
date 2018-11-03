@@ -92,7 +92,7 @@ public class Computer {
 				}
 			}
 		}));
-		// Runtime.getRuntime().exec("shutdown /h");
+//		Runtime.getRuntime().exec("shutdown /h");
 	}
 
 	public static void main(String[] args) {
