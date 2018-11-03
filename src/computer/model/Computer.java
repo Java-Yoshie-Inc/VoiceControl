@@ -1,21 +1,22 @@
 package computer.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.ibm.icu.text.DateFormatSymbols;
 
-import java.util.Calendar;
-import java.text.SimpleDateFormat;
+import computer.model.Chat.Sender;
 
 public class Computer {
 
 	private static final List<Phrase> PHRASES = new ArrayList<Phrase>();
 	private final SpeechRecognizerMain recognizer;
-
 	static {
+		Chat.init();
 		Voice.setType(2);
-
+		
 		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the time", "what time is it", "how late is it"}), new Action() {
 			@Override
 			public void run() {
@@ -52,11 +53,14 @@ public class Computer {
 	public Computer() {
 		recognizer = new SpeechRecognizerMain(this);
 	}
-
+	
 	public void say(String words) {
+		Chat.send(Sender.User, words);
+		System.out.println("Recognized: " + words);
+		
 		float highestSimilarity = 0;
 		Phrase bestPhrase = null;
-
+		
 		for (Phrase templatePhrase : PHRASES) {
 			if (templatePhrase.getSimilarity(words) > highestSimilarity) {
 				highestSimilarity = templatePhrase.getSimilarity(words);
@@ -69,8 +73,6 @@ public class Computer {
 		} else {
 			Voice.say("I am sorry, I didnt understand that");
 		}
-
-		System.out.println("Recognized: " + words);
 	}
 	
 	public static String getMonth(int month) {
