@@ -15,13 +15,12 @@ public class Computer {
 	static {
 		Voice.setType(2);
 
-		PHRASES.add(new Phrase(new Synonyms("what is the time"), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the time", "what time is it", "how late is it"}), new Action() {
 			@Override
 			public void run() {
 				Calendar cal = Calendar.getInstance();
 				SimpleDateFormat sdf = new SimpleDateFormat("hh");
 				SimpleDateFormat sdf2 = new SimpleDateFormat("mm");
-				System.out.println(new SimpleDateFormat("HH:mm").format(cal.getTime()));
 				Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 			}
 		}));
