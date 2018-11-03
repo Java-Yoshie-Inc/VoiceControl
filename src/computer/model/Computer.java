@@ -10,8 +10,6 @@ public class Computer {
 	private static final List<Phrase> PHRASES = new ArrayList<Phrase>();
 	private final SpeechRecognizerMain recognizer;
 
-	ArrayList<Phrase> phrases = new ArrayList<Phrase>();
-
 	static {
 		Voice.setType(2);
 
@@ -24,12 +22,12 @@ public class Computer {
 				Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 			}
 		}));
-<<<<<<< HEAD
+		
 		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
-=======
+
 		System.out.println("sdfsdfsf");
-		//PHRASES.add(new Phrase(String[] {"Hello", "Hi", "Good Morning"}, "Hello"));
->>>>>>> master
+		
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"Hello", "Hi", "Good Morning"}), "Hello"));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
 		PHRASES.add(new Phrase(new Synonyms("stop"), "Thank you for using our services. Au revoir!", new Action() {
 			@Override
