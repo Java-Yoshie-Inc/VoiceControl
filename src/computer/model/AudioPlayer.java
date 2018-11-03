@@ -281,10 +281,10 @@ public class AudioPlayer extends Thread {
 			Logger.getLogger(getClass().getName()).log(Level.WARNING, null, ex);
 			return;
 		}
-
+		
 		line.start();
 		setGain(getGainValue());
-
+		
 		int nRead = 0;
 		byte[] abData = new byte[65532];
 		while ((nRead != -1) && (!exitRequested)) {

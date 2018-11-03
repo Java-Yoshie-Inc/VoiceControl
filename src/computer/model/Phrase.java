@@ -56,7 +56,6 @@ public class Phrase {
 		for(String synonym : synonyms) {
 			float similarity = 0;
 			String[] words = synonym.split(" ");
-			
 			for(String word : text.split(" ")) {
 				for(String word2 : words) {
 					if(word.toLowerCase().equals(word2.toLowerCase())) {
@@ -75,7 +74,8 @@ public class Phrase {
 					}
 				}
 			}
-			float similarityPercentage = (float) similarity / words.length;
+			
+			float similarityPercentage = (float) similarity / Math.max(words.length, text.length());
 			if(similarityPercentage > highestSimilarity) {
 				highestSimilarity = similarityPercentage;
 			}

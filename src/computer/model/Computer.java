@@ -51,6 +51,7 @@ public class Computer {
 				System.exit(0);
 			}
 		}));
+		PHRASES.add(new Phrase(new Synonyms("plunger"), "Oh, I love plungers."));
 		PHRASES.add(new Phrase(new Synonyms(new String[] { "what's the date", "what is the date", "what is the day" }),
 				new Action() {
 					@Override
@@ -149,7 +150,7 @@ public class Computer {
 			}
 		}
 	}
-
+	
 	public static String getMonth(int month) {
 		return new DateFormatSymbols().getMonths()[month - 1];
 	}
