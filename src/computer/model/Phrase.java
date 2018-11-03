@@ -15,11 +15,6 @@ public class Phrase {
 		};
 	}
 	
-	public Phrase(Synonyms synonyms) {
-		this.synonyms = synonyms;
-		this.action = null;
-	}
-	
 	public Phrase(Synonyms synonyms, Action action) {
 		this.synonyms = synonyms;
 		this.action = new Action() {
@@ -41,25 +36,33 @@ public class Phrase {
 		};
 	}
 	
-	public float getSimilarity(Phrase text) {
-		int similarity = 0;
-		String[] words = getWords();
+	public float getSimilarity(String text) {
+		float highestSimilarity = 0f;
 		
-		for(String word : text.getWords()) {
-			boolean contains = false;;
-			for(String word2 : words) {
-				if(word.toLowerCase().equals(word2.toLowerCase())) {
-					contains = true;
-					break;
+		for(String synonym : synonyms) {
+			int similarity = 0;
+			String[] words = synonym.split(" ");
+			
+			for(String word : text.split(" ")) {
+				boolean contains = false;;
+				for(String word2 : words) {
+					if(word.toLowerCase().equals(word2.toLowerCase())) {
+						contains = true;
+						break;
+					}
+				}
+				
+				if(contains) {
+					similarity++;
 				}
 			}
 			
-			if(contains) {
-				similarity++;
+			float similarityPercentage = (float) similarity / words.length;
+			if(similarityPercentage > highestSimilarity) {
+				highestSimilarity = similarityPercentage;
 			}
 		}
-		
-		return (float) similarity / words.length;
+		return highestSimilarity;
 	}
 	
 	public void run() {

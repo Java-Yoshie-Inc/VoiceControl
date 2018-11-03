@@ -44,13 +44,12 @@ public class Computer {
 	}
 
 	public void say(String words) {
-		Phrase phrase = new Phrase(new Synonyms(words));
 		float highestSimilarity = 0;
 		Phrase bestPhrase = null;
 
 		for (Phrase templatePhrase : PHRASES) {
-			if (templatePhrase.getSimilarity(phrase) > highestSimilarity) {
-				highestSimilarity = templatePhrase.getSimilarity(phrase);
+			if (templatePhrase.getSimilarity(words) > highestSimilarity) {
+				highestSimilarity = templatePhrase.getSimilarity(words);
 				bestPhrase = templatePhrase;
 			}
 		}
@@ -61,7 +60,7 @@ public class Computer {
 			Voice.say("I am sorry, I didnt understand that");
 		}
 
-		System.out.println("Recognized: " + phrase);
+		System.out.println("Recognized: " + words);
 	}
 
 }
