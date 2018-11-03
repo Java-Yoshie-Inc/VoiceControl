@@ -208,7 +208,7 @@ public class SpeechRecognizerMain {
 			generator.say(speech);
 			isEnabled = false;
 		} else if(computerSynonyms.equals(speech)) {
-			Voice.say("Yes?", false, true);
+			Voice.say("Yes, Sir?", false, true);
 			isEnabled = true;
 		} else {
 			System.out.println("Cant understand: " + speech);

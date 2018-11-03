@@ -19,4 +19,9 @@ public class Synonyms extends ArrayList<String> {
 		return contains(object);
 	}
 	
+	@Override
+	public String toString() {
+		return Arrays.toString(this.toArray(new String[0]));
+	}
+	
 }

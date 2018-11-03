@@ -114,12 +114,26 @@ public class Computer {
 				}
 			}
 		}));
+		PHRASES.add(new Phrase(new Synonyms("say"), new Action() {
+			@Override
+			public void run(String text) {
+				Voice.say(text.replace("say", ""));
+			}
+		}) {
+			@Override
+			public float getSimilarity(String text) {
+				if(text.split(" ")[0].equals("say")) {
+					return 1f;
+				}
+				return 0f;
+			}
+		});
 	}
 
 	public static void main(String[] args) {
 		new Computer();
 	}
-
+	
 	public Computer() {
 		Chat.init(this);
 		new SpeechRecognizerMain(this);
@@ -132,6 +146,9 @@ public class Computer {
 		Phrase bestPhrase = null;
 
 		for (Phrase templatePhrase : PHRASES) {
+			if(bestPhrase != null) {
+				System.out.println(templatePhrase.toString() + " " + bestPhrase.toString());
+			}
 			if (templatePhrase.getSimilarity(words) > highestSimilarity) {
 				highestSimilarity = templatePhrase.getSimilarity(words);
 				bestPhrase = templatePhrase;
