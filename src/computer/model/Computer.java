@@ -141,7 +141,7 @@ public class Computer {
 
 	public void say(String words) {
 		Chat.send(Sender.User, words);
-		System.out.println("Recognized: " + words);
+		
 		float highestSimilarity = 0;
 		Phrase bestPhrase = null;
 
