@@ -20,6 +20,8 @@ public class Computer {
 	
 	private boolean asksForYesOrNo = false;
 	private String oldWords;
+	
+	private static Synonyms locationSyns = new Synonyms(new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"} );
 
 	private SpeechRecognizerMain speechRecognizer;
 
@@ -87,11 +89,15 @@ public class Computer {
 				}
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] { "where's", "where is", "where can I find" }), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(locationSyns.toArray()), new Action() {
 			@Override
 			public void run(String text) {
 				try {
-					String location = text.replace("where is ", "").replace("where's ", "").replace("where can i find", "");
+					String location = text;
+					for(String synonym : locationSyns) {
+						location = location.replace(synonym, "");
+					}
+					location = location.trim();
 					Voice.say("Here is the location of " + location);
 					location = location.replace(" ", "+");
 					Desktop.getDesktop().browse(new URI("https://www.google.de/maps/place/" + location));
