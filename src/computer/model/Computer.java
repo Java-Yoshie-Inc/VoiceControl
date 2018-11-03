@@ -155,9 +155,6 @@ public class Computer {
 
 	public void say(String words) {
 		Chat.send(Sender.User, words);
-<<<<<<< HEAD
-		
-=======
 		System.out.println("Recognized: " + words);
 
 		if (asksForYesOrNo) {
@@ -177,7 +174,6 @@ public class Computer {
 			return;
 		}
 
->>>>>>> patrick
 		float highestSimilarity = 0;
 		Phrase bestPhrase = null;
 
