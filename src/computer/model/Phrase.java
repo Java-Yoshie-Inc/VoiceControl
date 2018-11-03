@@ -62,7 +62,6 @@ public class Phrase {
 				}
 			}
 			float similarityPercentage = (float) similarity / words.length;
-			System.out.println(similarityPercentage + " " + synonym);
 			if(similarityPercentage > highestSimilarity) {
 				highestSimilarity = similarityPercentage;
 			}

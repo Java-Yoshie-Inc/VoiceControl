@@ -13,7 +13,6 @@ public class Computer {
 
 	private static final List<Phrase> PHRASES = new ArrayList<Phrase>();
 	static {
-		Chat.init();
 		Voice.setType(2);
 		
 		PHRASES.add(new Phrase(new Synonyms(new String[] {"what is the time", "what time is it", "how late is it"}), new Action() {
@@ -49,12 +48,12 @@ public class Computer {
 	}
 
 	public Computer() {
+		Chat.init(this);
 		new SpeechRecognizerMain(this);
 	}
 	
 	public void say(String words) {
 		Chat.send(Sender.User, words);
-		System.out.println("Recognized: " + words);
 		
 		float highestSimilarity = 0;
 		Phrase bestPhrase = null;

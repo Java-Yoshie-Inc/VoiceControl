@@ -22,9 +22,12 @@ public class Chat {
 	private static JPanel panel;
 	private static JPanel panel2;
 	private static JTextArea textArea;
+	private static Computer computer;
+	private static JTextField inputField;
 	
-	public static void init() {
+	public static void init(Computer computer) {
 		createFrame();
+		Chat.computer = computer;
 	}
 	
 	private static void createFrame() {
@@ -52,11 +55,11 @@ public class Chat {
 		JScrollPane textAreaScrollPane = new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel.add(textAreaScrollPane, BorderLayout.CENTER);
 		
-		JTextField inputField = new JTextField();
+		inputField = new JTextField();
 		inputField.setFont(new Font("Arial", Font.PLAIN, 32));
 		inputField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				processInput();
 			}
 		});
 		panel2.add(inputField, BorderLayout.CENTER);
@@ -67,7 +70,7 @@ public class Chat {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				send(Sender.User, inputField.getText());
+				processInput();
 			}
 		});
 		panel2.add(sendButton, BorderLayout.LINE_END);
@@ -77,6 +80,12 @@ public class Chat {
 	
 	public static void send(Sender sender, String message) {
 		textArea.setText(textArea.getText() + sender.toString() +  ": " + message + System.lineSeparator());
+	}
+	
+	private static void processInput() {
+		String input = inputField.getText();
+		inputField.setText("");
+		computer.say(input);
 	}
 	
 }

@@ -8,10 +8,10 @@ public class Voice {
 	private static float volume = 1f;
 	
 	public static void say(String text, boolean print) {
-		tts.speak(text, volume, true, true);
 		if(print) {
 			Chat.send(Sender.Bot, text);
 		}
+		tts.speak(text, volume, true, true);
 	}
 	
 	public static void say(String text) {
