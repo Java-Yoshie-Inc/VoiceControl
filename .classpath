@@ -2,14 +2,14 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="src/computer/sphinx4-core-5prealpha-20160628.232526-10.jar"/>
-	<classpathentry kind="lib" path="src/computer/sphinx4-data-5prealpha-20160628.232535-10.jar"/>
-	<classpathentry kind="lib" path="src/computer/marytts-builder-5.2-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="src/computer/marytts-lang-en-5.2.jar"/>
-	<classpathentry kind="lib" path="src/computer/voice-cmu-rms-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="src/computer/voice-cmu-slt-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="src/computer/voice-dfki-poppy-hsmm-5.2.jar"/>
-	<classpathentry kind="lib" path="src/computer/guava-22.0.jar"/>
-	<classpathentry kind="lib" path="src/computer/jsoup-1.10.2.jar"/>
+	<classpathentry kind="lib" path="lib/guava-22.0.jar"/>
+	<classpathentry kind="lib" path="lib/jsoup-1.10.2.jar"/>
+	<classpathentry kind="lib" path="lib/marytts-builder-5.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/marytts-lang-en-5.2.jar"/>
+	<classpathentry kind="lib" path="lib/sphinx4-core-5prealpha-20160628.232526-10.jar"/>
+	<classpathentry kind="lib" path="lib/sphinx4-data-5prealpha-20160628.232535-10.jar"/>
+	<classpathentry kind="lib" path="lib/voice-cmu-rms-hsmm-5.2.jar"/>
+	<classpathentry kind="lib" path="lib/voice-cmu-slt-hsmm-5.2.jar"/>
+	<classpathentry kind="lib" path="lib/voice-dfki-poppy-hsmm-5.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
