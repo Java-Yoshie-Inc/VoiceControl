@@ -21,10 +21,17 @@ public class Computer {
 	private boolean asksForYesOrNo = false;
 	private String oldWords;
 	
+<<<<<<< HEAD
 	private static Synonyms locationSynonyms = new Synonyms(new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"} );
 	
 	private SpeechRecognizerMain speechRecognizer;
 	
+=======
+	private static String[] locationSynonyms = new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"};
+
+	private static SpeechRecognizerMain speechRecognizer;
+
+>>>>>>> patrick
 	static {
 		Voice.setType(2);
 
@@ -90,7 +97,11 @@ public class Computer {
 				}
 			}
 		}));
+<<<<<<< HEAD
 		PHRASES.add(new Phrase(new Synonyms(locationSynonyms.toArray()), new Action() {
+=======
+		PHRASES.add(new Phrase(new Synonyms(locationSynonyms), new Action() {
+>>>>>>> patrick
 			@Override
 			public void run(String text) {
 				try {
