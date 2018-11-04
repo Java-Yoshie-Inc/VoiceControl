@@ -23,7 +23,7 @@ public class Computer {
 	
 	private static Synonyms locationSyns = new Synonyms(new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"} );
 
-	private SpeechRecognizerMain speechRecognizer;
+	private static SpeechRecognizerMain speechRecognizer;
 
 	static {
 		Voice.setType(2);
