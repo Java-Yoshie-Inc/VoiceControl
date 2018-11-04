@@ -29,6 +29,7 @@ public class Computer {
 	private SpeechRecognizer speechRecognizer;
 	
 	private static String[] locationSynonyms = new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"};
+	private static String[] wikipediaSynonyms = new String[] {"what is", "search for", "who is", "what is a", "what is an"};
 	
 	static {
 		Voice.setType(2);
@@ -78,11 +79,14 @@ public class Computer {
 								+ date[2]);
 					}
 				}));
-		PHRASES.add(new Phrase(new Synonyms(new String[] { "What is", "Who is" }), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(wikipediaSynonyms), new Action() {
 			@Override
 			public void run(String text) {
 				try {
-					String term = text.replace("what is ", "").replace("who is ", "");
+					String term = text;
+					for(String synonym : locationSynonyms) {
+						term = term.replace(synonym, "");
+					}
 					if (term != null && !term.equals("")) {
 						String result = Wikipedia.getInformation(term);
 						Voice.say(result, true);

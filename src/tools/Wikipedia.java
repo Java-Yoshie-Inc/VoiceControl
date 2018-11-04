@@ -18,7 +18,7 @@ public class Wikipedia {
 
 	public static String getInformation(String term) throws UnsupportedEncodingException, IOException {
 		String searchText = term + " wikipedia";
-		System.out.println("Searching...");
+		System.out.println("Searching for " + term + "...");
 
 		Document google = Jsoup.connect("https://www.google.com/search?q=" + URLEncoder.encode(searchText, encoding))
 				.userAgent("Mozilla/5.0").get();
