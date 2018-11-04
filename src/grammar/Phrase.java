@@ -53,8 +53,14 @@ public class Phrase {
 	}
 	
 	public void run(String text) {
+		String parameter = text;
+		for(String synonym : synonyms) {
+			parameter = parameter.replaceAll(synonym, "");
+		}
+		parameter = parameter.trim();
+		
 		if (action != null) {
-			action.run(text);
+			action.run(parameter);
 		}
 	}
 	

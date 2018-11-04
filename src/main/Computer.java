@@ -92,15 +92,15 @@ public class Computer {
 				}
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(locationSynonyms), new Action() {
+		PHRASES.add(new Phrase(new Synonyms("where is"), new Action() {
 			@Override
 			public void run(String text) {
 				try {
 					String location = text;
-					for(String synonym : locationSynonyms) {
+					/*for(String synonym : locationSynonyms) {
 						location = location.replace(synonym, "");
 					}
-					location = location.trim();
+					location = location.trim();*/
 					Voice.say("Here is the location of " + location);
 					location = location.replace(" ", "+");
 					Desktop.getDesktop().browse(new URI("https://www.google.de/maps/place/" + location));

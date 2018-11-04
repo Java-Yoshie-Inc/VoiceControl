@@ -16,7 +16,7 @@ import javax.swing.ScrollPaneConstants;
 
 public class Chat {
 	
-	public enum Sender {User, Bot}
+	public enum Sender {User, Bot, Error}
 	
 	private static JFrame frame;
 	private static JPanel panel;
@@ -50,7 +50,6 @@ public class Chat {
 		textArea.setFont(new Font("Arial", Font.PLAIN, 15));
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
-		textArea.setAutoscrolls(true);
 		textArea.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		JScrollPane textAreaScrollPane = new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -88,6 +87,10 @@ public class Chat {
 		String input = inputField.getText();
 		inputField.setText("");
 		computer.say(input);
+	}
+	
+	public static void sendError(Exception e) {
+		Chat.send(Sender.Error, e.getMessage());
 	}
 	
 }
