@@ -22,7 +22,8 @@ public class SpeechRecognizerMain {
 	private String speechRecognitionResult; //This String contains the Result that is coming back from SpeechRecognizer
 	
 	private Computer generator;
-	private Synonyms computerSynonyms = new Synonyms(new String[] {"concerts", "compute", "computers", "conduit", "come to a jerk", "and", "i'm sure", "can cure", "kosher", "compare", "club", "computer", "come shop", "crunches", "come to", "come true", "i'm cured", "clump you okay", "clump you would have"});
+//	private Synonyms computerSynonyms = new Synonyms(new String[] {"concerts", "compute", "computers", "conduit", "come to a jerk", "and", "i'm sure", "can cure", "kosher", "compare", "club", "computer", "come shop", "crunches", "come to", "come true", "i'm cured", "clump you okay", "clump you would have"});
+	private Synonyms nameSynonyms = new Synonyms(new String[] {"john", "johnny", "jonny"} );
 	
 	private boolean isEnabled = false, hasNextQuestion = false;
 	
@@ -212,7 +213,7 @@ public class SpeechRecognizerMain {
 			isEnabled = false;
 			hasNextQuestion = false;
 			generator.say(speech);
-		} else if(computerSynonyms.equals(speech)) {
+		} else if(nameSynonyms.equals(speech)) {
 			Voice.say("Yes, Sir?", false, true);
 			isEnabled = true;
 		} else {

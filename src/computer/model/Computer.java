@@ -21,7 +21,7 @@ public class Computer {
 	private boolean asksForYesOrNo = false;
 	private String oldWords;
 	
-	private static Synonyms locationSyns = new Synonyms(new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"} );
+	private static String[] locationSynonyms = new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"};
 
 	private static SpeechRecognizerMain speechRecognizer;
 
@@ -90,12 +90,12 @@ public class Computer {
 				}
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms(locationSyns.toArray()), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(locationSynonyms), new Action() {
 			@Override
 			public void run(String text) {
 				try {
 					String location = text;
-					for(String synonym : locationSyns) {
+					for(String synonym : locationSynonyms) {
 						location = location.replace(synonym, "");
 					}
 					location = location.trim();
@@ -179,9 +179,6 @@ public class Computer {
 		Phrase bestPhrase = null;
 
 		for (Phrase templatePhrase : PHRASES) {
-			if(bestPhrase != null) {
-				System.out.println(templatePhrase.toString() + " " + bestPhrase.toString());
-			}
 			if (templatePhrase.getSimilarity(words) > highestSimilarity) {
 				highestSimilarity = templatePhrase.getSimilarity(words);
 				bestPhrase = templatePhrase;

@@ -11,10 +11,8 @@ public class Synonyms extends ArrayList<String> {
 		addAll(Arrays.asList(array));
 	}
 	
-	public Synonyms(Object[] array) {
-		for(Object o : array) {
-			add(o.toString());
-		}
+	public Synonyms(ArrayList<String> list) {
+		addAll(list);
 	}
 	
 	public Synonyms(String text) {

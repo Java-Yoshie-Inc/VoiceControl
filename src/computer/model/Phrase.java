@@ -74,7 +74,7 @@ public class Phrase {
 					}
 				}
 			}
-			float similarityPercentage = (float) similarity / Math.max(words.length, text.length());
+			float similarityPercentage = (float) similarity / words.length;
 			if (similarityPercentage > highestSimilarity) {
 				highestSimilarity = similarityPercentage;
 			}
