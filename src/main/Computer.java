@@ -33,16 +33,6 @@ public class Computer {
 	static {
 		Voice.setType(2);
 		
-		PHRASES.add(new Phrase(new Synonyms(new String[] { "what is the time", "what time is it", "how late is it" }),
-				new Action() {
-					@Override
-					public void run(String words) {
-						Calendar cal = Calendar.getInstance();
-						SimpleDateFormat sdf = new SimpleDateFormat("hh");
-						SimpleDateFormat sdf2 = new SimpleDateFormat("mm");
-						Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
-					}
-				}));
 		PHRASES.add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening" }),
 				new String[] { "Hello", "Good morning", "Hi" }));
 		PHRASES.add(new Phrase(new Synonyms("how are you"), new String[] { "Oh, I am fine!", "Great" }));
@@ -58,8 +48,14 @@ public class Computer {
 						Voice.say("It is " + sdf.format(cal.getTime()) + " " + sdf2.format(cal.getTime()));
 					}
 				}));
-		PHRASES.add(new Phrase(new Synonyms("how are you"), "Oh, i am fine"));
 		PHRASES.add(new Phrase(new Synonyms("stop"), new Action() {
+			@Override
+			public void run(String gtext) {
+				Voice.say("Thank you for using our service. Au revoir!", false);
+				System.exit(0);
+			}
+		}));
+		PHRASES.add(new Phrase(new Synonyms("tell me a joke"), new Action() {
 			@Override
 			public void run(String gtext) {
 				Voice.say("Thank you for using our service. Au revoir!", false);
@@ -160,9 +156,9 @@ public class Computer {
 	}
 
 	public void say(String words) {
-		Chat.send(Sender.User, words);
 		System.out.println("Recognized: " + words);
-
+		Chat.send(Sender.User, words);
+		
 		if (asksForYesOrNo) {
 			if (words.toLowerCase().equals("yes")) {
 				try {
@@ -180,18 +176,17 @@ public class Computer {
 			return;
 		}
 
-		float highestSimilarity = 0;
-		Phrase bestPhrase = null;
+		float similarity = 0;
+		Phrase phrase = null;
 		
 		for (Phrase templatePhrase : PHRASES) {
-			if (templatePhrase.getSimilarity(words) > highestSimilarity) {
-				highestSimilarity = templatePhrase.getSimilarity(words);
-				bestPhrase = templatePhrase;
+			if (templatePhrase.getSimilarity(words) > similarity) {
+				similarity = templatePhrase.getSimilarity(words);
+				phrase = templatePhrase;
 			}
 		}
-		System.out.println(bestPhrase + " " + highestSimilarity + " " + asksForYesOrNo);
-		if (bestPhrase != null && highestSimilarity >= 0.2f || asksForYesOrNo) {
-			bestPhrase.run(words.toLowerCase());
+		if (phrase != null && similarity >= 0.2f || asksForYesOrNo) {
+			phrase.run(words.toLowerCase());
 			speechRecognizer.askQuestion(false);
 		} else {
 			oldWords = words;

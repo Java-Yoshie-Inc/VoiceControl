@@ -54,7 +54,7 @@ public class Phrase {
 
 	public float getSimilarity(String text) {
 		float highestSimilarity = 0f;
-
+		
 		for (String synonym : synonyms) {
 			float similarity = 0;
 			String[] words = synonym.split(" ");
@@ -84,7 +84,7 @@ public class Phrase {
 		}
 		return highestSimilarity;
 	}
-
+	
 	public void run(String text) {
 		if (action != null) {
 			action.run(text);
