@@ -25,7 +25,7 @@ public class SpeechRecognizer {
 	
 	private Computer generator;
 //	private Synonyms computerSynonyms = new Synonyms(new String[] {"concerts", "compute", "computers", "conduit", "come to a jerk", "and", "i'm sure", "can cure", "kosher", "compare", "club", "computer", "come shop", "crunches", "come to", "come true", "i'm cured", "clump you okay", "clump you would have"});
-	private Synonyms nameSynonyms = new Synonyms(new String[] {"trashy", "oh shit", "josh", "jesse", "duffy", "judging", "java", "job", "yoshi", "yeah", "yeah she", "does she", "tough shit", "yeah shit", "catchy", "gosh"} );
+	private Synonyms nameSynonyms = new Synonyms(new String[] {"no shit", "trashy", "oh shit", "josh", "jesse", "duffy", "judging", "java", "job", "yoshi", "yeah", "yeah she", "does she", "tough shit", "yeah shit", "catchy", "gosh"} );
 	
 	private boolean isEnabled = false, hasNextQuestion = false;
 	
