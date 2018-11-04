@@ -84,7 +84,6 @@ public class Computer {
 				try {
 					String term = text.replace("what is ", "").replace("who is ", "");
 					if (term != null && !term.equals("")) {
-						Voice.say("Here are the results for " + term, false);
 						String result = Wikipedia.getInformation(term);
 						Voice.say(result, true);
 					}
