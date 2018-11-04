@@ -50,6 +50,7 @@ public class Chat {
 		textArea.setFont(new Font("Arial", Font.PLAIN, 15));
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
+		textArea.setAutoscrolls(true);
 		textArea.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		JScrollPane textAreaScrollPane = new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

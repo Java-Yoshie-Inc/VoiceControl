@@ -20,7 +20,7 @@ public class Phrase {
 			}
 		};
 	}
-
+	
 	public Phrase(Synonyms synonyms, String[] actions) {
 		this.synonyms = synonyms;
 		this.action = new Action() {
@@ -30,7 +30,7 @@ public class Phrase {
 			}
 		};
 	}
-
+	
 	public Phrase(Synonyms synonyms, Action action) {
 		this.synonyms = synonyms;
 		this.action = new Action() {
@@ -40,7 +40,7 @@ public class Phrase {
 			}
 		};
 	}
-
+	
 	public Phrase(Synonyms synonyms, String actionText, Action action) {
 		this.synonyms = synonyms;
 		this.action = new Action() {
@@ -51,49 +51,19 @@ public class Phrase {
 			}
 		};
 	}
-
-	public float getSimilarity(String text) {
-		float highestSimilarity = 0f;
-		
-		for (String synonym : synonyms) {
-			float similarity = 0;
-			String[] words = synonym.split(" ");
-			for (String word : text.split(" ")) {
-				for (String word2 : words) {
-					if (word.toLowerCase().equals(word2.toLowerCase())) {
-						similarity++;
-						break;
-					} else {
-						for (int i = 3; i < word.length(); i++) {
-							String substring = word.substring(i - 3, i);
-							for (int j = 3; j < word2.length(); j++) {
-								String substring2 = word2.substring(j - 3, j);
-								if (substring.equals(substring2)) {
-									similarity += 0.5;
-								}
-							}
-						}
-					}
-				}
-			}
-			
-			float similarityPercentage = (float) similarity / words.length;
-			if (similarityPercentage > highestSimilarity) {
-				highestSimilarity = similarityPercentage;
-			}
-		}
-		return highestSimilarity;
-	}
 	
 	public void run(String text) {
 		if (action != null) {
 			action.run(text);
 		}
 	}
-
+	
 	@Override
 	public String toString() {
 		return synonyms.toString();
+	}
+	public Synonyms getSynonyms() {
+		return synonyms;
 	}
 
 }

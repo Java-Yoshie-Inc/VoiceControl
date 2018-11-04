@@ -14,6 +14,7 @@ import com.ibm.icu.text.DateFormatSymbols;
 
 import grammar.Action;
 import grammar.Phrase;
+import grammar.PhraseComparison;
 import grammar.Synonyms;
 import main.Chat.Sender;
 import tools.Wikipedia;
@@ -130,22 +131,8 @@ public class Computer {
 				}
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms("say"), new Action() {
-			@Override
-			public void run(String text) {
-				Voice.say(text.replace("say", ""));
-			}
-		}) {
-			@Override
-			public float getSimilarity(String text) {
-				if(text.split(" ")[0].equals("say")) {
-					return 1f;
-				}
-				return 0f;
-			}
-		});
 	}
-
+	
 	public static void main(String[] args) {
 		new Computer();
 	}
@@ -154,7 +141,7 @@ public class Computer {
 		Chat.init(this);
 		speechRecognizer = new SpeechRecognizer(this);
 	}
-
+	
 	public void say(String words) {
 		System.out.println("Recognized: " + words);
 		Chat.send(Sender.User, words);
@@ -180,8 +167,9 @@ public class Computer {
 		Phrase phrase = null;
 		
 		for (Phrase templatePhrase : PHRASES) {
-			if (templatePhrase.getSimilarity(words) > similarity) {
-				similarity = templatePhrase.getSimilarity(words);
+			PhraseComparison phraseComparison = new PhraseComparison(templatePhrase, words);
+			if (phraseComparison.getSimilarity() > similarity) {
+				similarity = phraseComparison.getSimilarity();
 				phrase = templatePhrase;
 			}
 		}
