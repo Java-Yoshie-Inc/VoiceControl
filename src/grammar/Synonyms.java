@@ -35,8 +35,4 @@ public class Synonyms extends ArrayList<String> {
 		return Arrays.toString(this.toArray(new String[0]));
 	}
 	
-	public Object[] toArray() {
-		return super.toArray();
-	}
-	
 }

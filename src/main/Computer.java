@@ -28,9 +28,7 @@ public class Computer {
 	private String oldWords;
 		
 	private SpeechRecognizer speechRecognizer;
-	
-	private static String[] locationSynonyms = new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"};
-	
+		
 	static {
 		Voice.setType(2);
 		
@@ -92,15 +90,10 @@ public class Computer {
 				}
 			}
 		}));
-		PHRASES.add(new Phrase(new Synonyms("where is"), new Action() {
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"where is", "where can I find", "where are"}), new Action() {
 			@Override
-			public void run(String text) {
+			public void run(String location) {
 				try {
-					String location = text;
-					/*for(String synonym : locationSynonyms) {
-						location = location.replace(synonym, "");
-					}
-					location = location.trim();*/
 					Voice.say("Here is the location of " + location);
 					location = location.replace(" ", "+");
 					Desktop.getDesktop().browse(new URI("https://www.google.de/maps/place/" + location));
@@ -108,6 +101,19 @@ public class Computer {
 					e.printStackTrace();
 				}
 			}
+		}));
+		PHRASES.add(new Phrase(new Synonyms("say"), new Action() {
+			@Override
+			public void run(String text) {
+				Voice.say(text);
+			}
+		}));
+		PHRASES.add(new Phrase(new Synonyms(new String[] {"tell me a joke"}), new String[] {
+				"Can a kangaroo jump higher than a house? Of course, a house doesn’t jump at all.", 
+				"Anton, do you think I am a good mother? Mom, my name is Paul.", 
+				"My dog used to chase people on a bike a lot. It got so bad, finally I had to take his bike away.", 
+				"My wife suffers from a drinking problem. Oh is she an alcoholic? No, I am, but she is the one who suffers.", 
+				"I managed to lose my rifle when I was in the army. I had to pay 855 dollars to cover the loss. I am starting to understand why a Navy captain always goes down with his ship."
 		}));
 		PHRASES.add(new Phrase(new Synonyms(new String[] { "Shut down my computer" }), new Action() {
 			@Override
