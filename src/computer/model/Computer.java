@@ -22,9 +22,9 @@ public class Computer {
 	private String oldWords;
 	
 	private static Synonyms locationSynonyms = new Synonyms(new String[] {"where it", "where is", "where are", "where's", "where can i find", "where in"} );
-
+	
 	private SpeechRecognizerMain speechRecognizer;
-
+	
 	static {
 		Voice.setType(2);
 

@@ -22,7 +22,14 @@ public class Synonyms extends ArrayList<String> {
 	}
 	
 	public boolean equals(String object) {
-		return contains(object);
+		boolean contains = false;
+		for(String text : this) {
+			if(text.toLowerCase().equals(object.toLowerCase())) {
+				contains = true;
+				break;
+			}
+		}
+		return contains;
 	}
 	
 	@Override
