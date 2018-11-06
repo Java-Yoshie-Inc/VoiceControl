@@ -3,8 +3,6 @@ package main;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import com.ibm.icu.text.DateFormatSymbols;
-
 import grammar.Phrase;
 import grammar.PhraseComparison;
 import grammar.Phrases;

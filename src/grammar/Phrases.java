@@ -85,7 +85,7 @@ public class Phrases extends ArrayList<Phrase> {
 		//Other
 		add(new Phrase(new Synonyms("stop"), new Action() {
 			@Override
-			public void run(String gtext) {
+			public void run(String text) {
 				Voice.say("Thank you for using our service. Au revoir!", false);
 				System.exit(0);
 			}
