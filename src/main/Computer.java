@@ -1,6 +1,7 @@
 package main;
 
-import grammar.Name;
+import grammar.ActivationWord;
+import grammar.InputBlacklist;
 import grammar.Phrase;
 import grammar.PhraseComparison;
 import grammar.Phrases;
@@ -35,7 +36,10 @@ public class Computer {
 	
 	public Computer() {
 		Chat.init(EVENT);
-		speechRecognizer = new SpeechRecognizer(Name.John, EVENT);
+		
+		speechRecognizer = new SpeechRecognizer(ActivationWord.Hey, EVENT);
+		speechRecognizer.setUseActivationWord(true);
+		speechRecognizer.setBlacklist(new InputBlacklist());
 	}
 	
 	public void say(String words) {

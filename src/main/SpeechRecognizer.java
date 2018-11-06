@@ -1,6 +1,7 @@
 package main;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,7 +15,7 @@ import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.result.WordResult;
-import grammar.Name;
+import grammar.ActivationWord;
 import voice.Voice;
 
 public class SpeechRecognizer {
@@ -22,18 +23,19 @@ public class SpeechRecognizer {
 	private LiveSpeechRecognizer recognizer;
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
-	private final Name NAME;
+	private final ActivationWord NAME;
 	private final SpeechRecognizeEvent EVENT;
-	
-	private boolean isEnabled = false, hasNextQuestion = false;
+	private ArrayList<String> blacklist = new ArrayList<String>();
 	
 	private boolean ignoreSpeechRecognitionResults = false;
 	private boolean speechRecognizerThreadRunning = false;
 	private boolean resourcesThreadRunning;
 	private ExecutorService eventsExecutorService = Executors.newFixedThreadPool(2); //This executor service is used in order the playerState events to be executed in an order
-	private boolean useActivationWord = true;
 	
-	public SpeechRecognizer(Name name, SpeechRecognizeEvent event) {
+	private boolean useActivationWord = true;
+	private boolean isEnabled = false, hasNextQuestion = false;
+	
+	public SpeechRecognizer(ActivationWord name, SpeechRecognizeEvent event) {
 		this.NAME = name;
 		this.EVENT = event;
 		
@@ -154,13 +156,26 @@ public class SpeechRecognizer {
 	public void makeDecision(String speech , List<WordResult> speechWords) {
 		//System.out.println(speech + " " + Arrays.deepToString(speechWords.toArray(new WordResult[0])));
 		
+		for(String string : blacklist) {
+			if(string.equals(speech)) {
+				return;
+			}
+		}
+		
+		if(!useActivationWord || NAME.getSynonyms().equals(speech)) {
+			isEnabled = true;
+			if(useActivationWord) {
+				Voice.say("Yes", false, true);
+				return;
+			}
+		}
+		
 		if(isEnabled || hasNextQuestion) {
-			isEnabled = false;
+			if(useActivationWord) {
+				isEnabled = false;
+			}
 			hasNextQuestion = false;
 			EVENT.say(speech);
-		} else if(NAME.getSynonyms().equals(speech)) {
-			Voice.say("Yes, Sir?", false, true);
-			isEnabled = true;
 		} else {
 			System.out.println("Cant understand: " + speech);
 		}
@@ -183,6 +198,12 @@ public class SpeechRecognizer {
 	}
 	public void setUseActivationWord(boolean useActivationWord) {
 		this.useActivationWord = useActivationWord;
+	}
+	public ArrayList<String> getBlacklist() {
+		return blacklist;
+	}
+	public void setBlacklist(ArrayList<String> blacklist) {
+		this.blacklist = blacklist;
 	}
 	
 }
