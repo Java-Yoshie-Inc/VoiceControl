@@ -17,22 +17,25 @@ public class Computer {
 	
 	private SpeechRecognizer speechRecognizer;
 	
-	static {
-		Voice.setType(2);
-	}
+	private final SpeechRecognizeEvent EVENT = new SpeechRecognizeEvent() {
+		@Override
+		public void say(String text) {
+			Computer.this.say(text);
+		}
+	};
 	
 	public static void main(String[] args) {
 		new Computer();
 	}
 	
+	static {
+		Voice.setType(2);
+		Voice.setVolume(1f);
+	}
+	
 	public Computer() {
-		Chat.init(this);
-		speechRecognizer = new SpeechRecognizer(Name.John, new SpeechRecognizeEvent() {
-			@Override
-			public void say(String text) {
-				Computer.this.say(text);
-			}
-		});
+		Chat.init(EVENT);
+		speechRecognizer = new SpeechRecognizer(Name.John, EVENT);
 	}
 	
 	public void say(String words) {

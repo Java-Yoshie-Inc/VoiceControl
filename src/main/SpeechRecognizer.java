@@ -27,18 +27,9 @@ public class SpeechRecognizer {
 	
 	private boolean isEnabled = false, hasNextQuestion = false;
 	
-	
-	//-----------------Lock Variables-----------------------------
-	/**
-	 * This variable is used to ignore the results of speech recognition cause actually it can't be stopped...
-	 * 
-	 * <br>
-	 * Check this link for more information: <a href=
-	 * "https://sourceforge.net/p/cmusphinx/discussion/sphinx4/thread/3875fc39/">https://sourceforge.net/p/cmusphinx/discussion/sphinx4/thread/3875fc39/</a>
-	 */
 	private boolean ignoreSpeechRecognitionResults = false;
-	private boolean speechRecognizerThreadRunning = false; //Checks if the speech recognise is already running
-	private boolean resourcesThreadRunning; //Checks if the resources Thread is already running
+	private boolean speechRecognizerThreadRunning = false;
+	private boolean resourcesThreadRunning;
 	private ExecutorService eventsExecutorService = Executors.newFixedThreadPool(2); //This executor service is used in order the playerState events to be executed in an order
 	
 	public SpeechRecognizer(Name name, SpeechRecognizeEvent event) {

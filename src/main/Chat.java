@@ -22,12 +22,12 @@ public class Chat {
 	private static JPanel panel;
 	private static JPanel panel2;
 	private static JTextArea textArea;
-	private static Computer computer;
+	private static SpeechRecognizeEvent EVENT;
 	private static JTextField inputField;
 	
-	public static void init(Computer computer) {
+	public static void init(SpeechRecognizeEvent event) {
 		createFrame();
-		Chat.computer = computer;
+		Chat.EVENT = event;
 	}
 	
 	private static void createFrame() {
@@ -86,7 +86,7 @@ public class Chat {
 	private static void processInput() {
 		String input = inputField.getText();
 		inputField.setText("");
-		computer.say(input);
+		EVENT.say(input);
 	}
 	
 	public static void sendError(Exception e) {
