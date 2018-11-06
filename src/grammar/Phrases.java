@@ -1,16 +1,14 @@
 package grammar;
 
 import java.awt.Desktop;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.ibm.icu.text.DateFormatSymbols;
 
+import main.Chat;
 import tools.Wikipedia;
 import voice.Voice;
 
@@ -59,10 +57,8 @@ public class Phrases extends ArrayList<Phrase> {
 						String result = Wikipedia.getInformation(term);
 						Voice.say(result, true);
 					}
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					Chat.sendError(e);
 				}
 			}
 		}));
@@ -74,8 +70,8 @@ public class Phrases extends ArrayList<Phrase> {
 					Voice.say("Here is the location of " + location);
 					location = location.replace(" ", "+");
 					Desktop.getDesktop().browse(new URI("https://www.google.de/maps/place/" + location));
-				} catch (IOException | URISyntaxException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					Chat.sendError(e);
 				}
 			}
 		}));
@@ -117,8 +113,8 @@ public class Phrases extends ArrayList<Phrase> {
 				Voice.say("Your computer will shut down in one minute.");
 				try {
 					Runtime.getRuntime().exec("shutdown /s /t 60");
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					Chat.sendError(e);
 				}
 			}
 		}));
@@ -129,8 +125,8 @@ public class Phrases extends ArrayList<Phrase> {
 				Voice.say("Yes");
 				try {
 					Runtime.getRuntime().exec("shutdown /a");
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					Chat.sendError(e);
 				}
 			}
 		}));

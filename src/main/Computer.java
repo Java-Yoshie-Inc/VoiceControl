@@ -1,8 +1,6 @@
 package main;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
+import grammar.Name;
 import grammar.Phrase;
 import grammar.PhraseComparison;
 import grammar.Phrases;
@@ -11,14 +9,14 @@ import tools.Wikipedia;
 import voice.Voice;
 
 public class Computer {
-
+	
 	private static final Phrases PHRASES = new Phrases();
 	
 	private boolean asksForYesOrNo = false;
 	private String oldWords;
-		
+	
 	private SpeechRecognizer speechRecognizer;
-		
+	
 	static {
 		Voice.setType(2);
 	}
@@ -29,7 +27,12 @@ public class Computer {
 	
 	public Computer() {
 		Chat.init(this);
-		speechRecognizer = new SpeechRecognizer(this);
+		speechRecognizer = new SpeechRecognizer(Name.John, new SpeechRecognizeEvent() {
+			@Override
+			public void say(String text) {
+				Computer.this.say(text);
+			}
+		});
 	}
 	
 	public void say(String words) {
@@ -41,10 +44,8 @@ public class Computer {
 				try {
 					String result = Wikipedia.getInformation(oldWords);
 					Voice.say(result, true);
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					Chat.sendError(e);
 				}
 			} else {
 				Voice.say("Ok");
