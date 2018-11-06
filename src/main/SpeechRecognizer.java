@@ -31,6 +31,7 @@ public class SpeechRecognizer {
 	private boolean speechRecognizerThreadRunning = false;
 	private boolean resourcesThreadRunning;
 	private ExecutorService eventsExecutorService = Executors.newFixedThreadPool(2); //This executor service is used in order the playerState events to be executed in an order
+	private boolean useActivationWord = true;
 	
 	public SpeechRecognizer(Name name, SpeechRecognizeEvent event) {
 		this.NAME = name;
@@ -177,4 +178,11 @@ public class SpeechRecognizer {
 	public void askQuestion(boolean question) {
 		this.hasNextQuestion = question;
 	}
+	public boolean useActivationWord() {
+		return useActivationWord;
+	}
+	public void setUseActivationWord(boolean useActivationWord) {
+		this.useActivationWord = useActivationWord;
+	}
+	
 }
