@@ -9,6 +9,7 @@ public class InputBlacklist extends ArrayList<String> {
 	public InputBlacklist() {
 		add("huh");
 		add("hm");
+		add("");
 	}
 	
 }
