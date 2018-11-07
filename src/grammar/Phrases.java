@@ -18,7 +18,7 @@ public class Phrases extends ArrayList<Phrase> {
 	
 	public Phrases() {
 		//Smalltalk
-		add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening" }), new String[] { "Hello", "Good morning", "Hi" }));
+		add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening"}), new String[] { "Hello", "Hi" }));
 		
 		add(new Phrase(new Synonyms("how are you"), new String[] { "Oh, I am fine!", "Great" }));
 		

@@ -10,6 +10,7 @@ public class InputBlacklist extends ArrayList<String> {
 		add("huh");
 		add("hm");
 		add("");
+		add("heh");
 	}
 	
 }

@@ -33,7 +33,7 @@ public class SpeechRecognizer {
 	private ExecutorService eventsExecutorService = Executors.newFixedThreadPool(2); //This executor service is used in order the playerState events to be executed in an order
 	
 	private boolean useActivationWord = true;
-	private boolean isEnabled = false, hasNextQuestion = false;
+	private boolean isEnabled = false;
 	
 	public SpeechRecognizer(ActivationWord name, SpeechRecognizeEvent event) {
 		this.NAME = name;
@@ -155,12 +155,7 @@ public class SpeechRecognizer {
 	
 	public void makeDecision(String speech , List<WordResult> speechWords) {
 		//System.out.println(speech + " " + Arrays.deepToString(speechWords.toArray(new WordResult[0])));
-		
-		for(String string : blacklist) {
-			if(string.equals(speech)) {
-				return;
-			}
-		}
+		System.out.println(speech + useActivationWord);
 		
 		if(!useActivationWord || NAME.getSynonyms().equals(speech)) {
 			isEnabled = true;
@@ -170,11 +165,14 @@ public class SpeechRecognizer {
 			}
 		}
 		
-		if(isEnabled || hasNextQuestion) {
-			if(useActivationWord) {
-				isEnabled = false;
+		for(String string : blacklist) {
+			if(string.equals(speech)) {
+				return;
 			}
-			hasNextQuestion = false;
+		}
+		
+		if(isEnabled) {
+			isEnabled = false;
 			EVENT.say(speech);
 		} else {
 			System.out.println("Cant understand: " + speech);

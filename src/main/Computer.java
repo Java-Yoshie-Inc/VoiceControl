@@ -58,9 +58,10 @@ public class Computer {
 				Voice.say("Ok");
 			}
 			asksForYesOrNo = false;
+			speechRecognizer.setUseActivationWord(true);
 			return;
 		}
-
+		
 		float similarity = 0;
 		Phrase phrase = null;
 		
@@ -73,12 +74,11 @@ public class Computer {
 		}
 		if (phrase != null && similarity >= 0.2f || asksForYesOrNo) {
 			phrase.run(words.toLowerCase());
-			speechRecognizer.askQuestion(false);
 		} else {
 			oldWords = words;
 			Voice.say("Should I search for " + words + "?", false);
 			asksForYesOrNo = true;
-			speechRecognizer.askQuestion(true);
+			speechRecognizer.setUseActivationWord(false);
 		}
 	}
 

@@ -86,7 +86,8 @@ public class Chat {
 	private static void processInput() {
 		String input = inputField.getText();
 		inputField.setText("");
-		EVENT.say(input);
+		//EVENT.say(input);
+		
 	}
 	
 	public static void sendError(Exception e) {
