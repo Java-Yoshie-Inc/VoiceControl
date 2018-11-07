@@ -188,9 +188,6 @@ public class SpeechRecognizer {
 	public boolean getSpeechRecognizerThreadRunning() {
 		return speechRecognizerThreadRunning;
 	}
-	public void askQuestion(boolean question) {
-		this.hasNextQuestion = question;
-	}
 	public boolean useActivationWord() {
 		return useActivationWord;
 	}
