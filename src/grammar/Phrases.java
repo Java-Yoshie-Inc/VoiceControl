@@ -58,6 +58,22 @@ public class Phrases extends ArrayList<Phrase> {
 			}
 		}));
 		
+		add(new Phrase(new Synonyms("deactivate microphone"), new Action() {
+			@Override
+			public void run(String text) {
+				bot.getSpeechRecognizer().setBlockInputs(true);
+				Voice.say("Microphone deactivated");
+			}
+		}));
+		
+		add(new Phrase(new Synonyms("activate microphone"), new Action() {
+			@Override
+			public void run(String text) {
+				bot.getSpeechRecognizer().setBlockInputs(false);
+				Voice.say("Microphone activated");
+			}
+		}));
+		
 		add(new Phrase(new Synonyms("say"), new Action() {
 			@Override
 			public void run(String text) {

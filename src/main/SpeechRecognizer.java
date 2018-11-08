@@ -31,6 +31,7 @@ public class SpeechRecognizer {
 	private boolean speechRecognizerThreadRunning = false;
 	private boolean resourcesThreadRunning;
 	private ExecutorService eventsExecutorService = Executors.newFixedThreadPool(2); //This executor service is used in order the playerState events to be executed in an order
+	private boolean blockInputs = false;
 	
 	private boolean useActivationWord = true;
 	private boolean isEnabled = false;
@@ -104,11 +105,13 @@ public class SpeechRecognizer {
 							if (speechResult == null) {
 								logger.log(Level.INFO, "I can't understand what you said.");
 							} else {
-								//Get the hypothesis
-								String speechRecognitionResult = speechResult.getHypothesis();
-								
-								//Call the appropriate method 
-								makeDecision(speechRecognitionResult, speechResult.getWords());
+								if(!blockInputs) {
+									//Get the hypothesis
+									String speechRecognitionResult = speechResult.getHypothesis();
+									
+									//Call the appropriate method 
+									makeDecision(speechRecognitionResult, speechResult.getWords());
+								}
 							}
 						} else
 							logger.log(Level.INFO, "Ingoring Speech Recognition Results...");
@@ -199,6 +202,9 @@ public class SpeechRecognizer {
 	}
 	public void setBlacklist(ArrayList<String> blacklist) {
 		this.blacklist = blacklist;
+	}
+	public void setBlockInputs(boolean blockInputs) {
+		this.blockInputs = blockInputs;
 	}
 	
 }

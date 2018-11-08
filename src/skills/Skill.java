@@ -10,7 +10,7 @@ public abstract class Skill extends Thread {
 	private boolean receivedInput = false;
 	private String lastInput = null;
 	
-	Skill(Bot bot, String name) {
+	protected Skill(Bot bot, String name) {
 		this.NAME = name;
 		this.bot = bot;
 	}
