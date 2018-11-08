@@ -11,7 +11,7 @@ public class Voice {
 	private static Thread thread;
 	
 	public static void say(String text, boolean print, boolean newThread) {
-		tts.stopSpeaking();
+		stop();
 		if(print) {
 			Chat.send(Sender.Bot, text);
 		}
@@ -26,6 +26,10 @@ public class Voice {
 		} else {
 			thread.run();
 		}
+	}
+	
+	public static void stop() {
+		tts.stopSpeaking();
 	}
 	
 	public static void say(String text, boolean newThread) {

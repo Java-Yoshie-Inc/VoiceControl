@@ -2,8 +2,8 @@ package skills;
 
 import grammar.Phrase;
 import grammar.PhraseComparison;
-import main.Chat;
 import main.Bot;
+import main.Chat;
 import tools.Wikipedia;
 import voice.Voice;
 

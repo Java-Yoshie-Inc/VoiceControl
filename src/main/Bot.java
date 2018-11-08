@@ -1,25 +1,42 @@
 package main;
 
+import grammar.Action;
 import grammar.ActivationWord;
 import grammar.InputBlacklist;
+import grammar.Phrase;
 import grammar.Phrases;
+import grammar.Synonyms;
 import main.Chat.Sender;
 import skills.Skill;
 import skills.Skills;
+import skills.StandardSkill;
 import voice.Voice;
 
 public class Bot {
 	
 	private final Phrases PHRASES = new Phrases(this);
-	private static final Skills SKILLS = new Skills();
+	private final Skills SKILLS = new Skills(this);
 	
 	private SpeechRecognizer speechRecognizer;
-	private Skill activeSkill = null;
+	private Skill activeSkill;
+	
+	private final Phrase STOP = new Phrase(new Synonyms(new String[] {"stop"}), new Action() {
+		@Override
+		public void run(String text) {
+			setActiveSkill(new StandardSkill(Bot.this));
+		}
+	});
 	
 	private final SpeechRecognizeEvent EVENT = new SpeechRecognizeEvent() {
 		@Override
-		public void say(String text) {
-			Bot.this.say(text);
+		public void say(String input) {
+			System.out.println("Recognized: " + input);
+			Chat.send(Sender.User, input);
+			if(STOP.getSynonyms().equals(input)) {
+				setActiveSkill(new StandardSkill(Bot.this));
+				Voice.stop();
+			}
+			activeSkill.sendInput(input);
 		}
 	};
 	
@@ -38,15 +55,8 @@ public class Bot {
 		speechRecognizer = new SpeechRecognizer(ActivationWord.Hey, EVENT);
 		speechRecognizer.setUseActivationWord(true);
 		speechRecognizer.setBlacklist(new InputBlacklist());
-	}
-	
-	public void say(String words) {
-		System.out.println("Recognized: " + words);
-		Chat.send(Sender.User, words);
 		
-		if(activeSkill != null) {
-			activeSkill.sendInput(words);
-		}
+		setActiveSkill(new StandardSkill(this));
 	}
 	
 	public Skills getSkills() {
@@ -54,13 +64,11 @@ public class Bot {
 	}
 	
 	public void setActiveSkill(Skill activeSkill) {
-		this.activeSkill = activeSkill;
-		if(activeSkill != null) {
-			activeSkill.start();
-			speechRecognizer.setUseActivationWord(false);
-		} else {
-			speechRecognizer.setUseActivationWord(true);
+		if(this.activeSkill != null) {
+			this.activeSkill.interrupt();
 		}
+		this.activeSkill = activeSkill;
+		activeSkill.start();
 	}
 
 	public Phrases getPhrases() {

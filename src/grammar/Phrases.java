@@ -10,8 +10,8 @@ import java.util.Calendar;
 
 import com.ibm.icu.text.DateFormatSymbols;
 
-import main.Chat;
 import main.Bot;
+import main.Chat;
 import skills.Skill;
 import tools.Wikipedia;
 import voice.Voice;
@@ -44,13 +44,6 @@ public class Phrases extends ArrayList<Phrase> {
 						bot.setActiveSkill(skill);
 					}
 				}
-			}
-		}));
-		
-		add(new Phrase(new Synonyms(new String[] {"stop"}), new Action() {
-			@Override
-			public void run(String text) {
-				bot.setActiveSkill(null);
 			}
 		}));
 		
