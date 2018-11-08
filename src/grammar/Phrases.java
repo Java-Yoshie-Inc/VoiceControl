@@ -1,6 +1,8 @@
 package grammar;
 
 import java.awt.Desktop;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,16 +51,14 @@ public class Phrases extends ArrayList<Phrase> {
 		
 		add(new Phrase(new Synonyms(new String[] { "What is", "Who is" }), new Action() {
 			@Override
-			public void run(String text) {
+			public void run(String term) {
 				try {
-					String term = text.replace("what is ", "").replace("who is ", "");
-					if (term != null && !term.equals("")) {
-						Voice.say("Here are the results for " + term, false);
-						String result = Wikipedia.getInformation(term);
-						Voice.say(result, true);
-					}
-				} catch (Exception e) {
-					Chat.sendError(e);
+					String result = Wikipedia.getInformation(term);
+					Voice.say(result, true);
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		}));
