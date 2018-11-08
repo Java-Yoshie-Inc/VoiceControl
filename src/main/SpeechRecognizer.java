@@ -155,7 +155,7 @@ public class SpeechRecognizer {
 	
 	public void makeDecision(String speech , List<WordResult> speechWords) {
 		//System.out.println(speech + " " + Arrays.deepToString(speechWords.toArray(new WordResult[0])));
-		System.out.println(speech + useActivationWord);
+		//System.out.println(speech + " " + useActivationWord);
 		
 		if(!useActivationWord || NAME.getSynonyms().equals(speech)) {
 			isEnabled = true;

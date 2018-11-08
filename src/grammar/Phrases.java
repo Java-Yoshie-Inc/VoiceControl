@@ -11,6 +11,8 @@ import java.util.Calendar;
 import com.ibm.icu.text.DateFormatSymbols;
 
 import main.Chat;
+import main.Bot;
+import skills.Skill;
 import tools.Wikipedia;
 import voice.Voice;
 
@@ -18,12 +20,92 @@ public class Phrases extends ArrayList<Phrase> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public Phrases() {
+	private Bot bot;
+	
+	public Phrases(Bot bot) {
+		this.bot = bot;
+		load();
+	}
+	
+	private void load() {
 		//Smalltalk
 		add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening"}), new String[] { "Hello", "Hi" }));
 		
 		add(new Phrase(new Synonyms("how are you"), new String[] { "Oh, I am fine!", "Great" }));
 		
+		
+		
+		//Skills
+		add(new Phrase(new Synonyms(new String[] {"start"}), new Action() {
+			@Override
+			public void run(String text) {
+				for(Skill skill : bot.getSkills()) {
+					if(skill.getSkillName().equalsIgnoreCase(text)) {
+						bot.setActiveSkill(skill);
+					}
+				}
+			}
+		}));
+		
+		add(new Phrase(new Synonyms(new String[] {"stop"}), new Action() {
+			@Override
+			public void run(String text) {
+				bot.setActiveSkill(null);
+			}
+		}));
+		
+		
+		
+		//Commands
+		add(new Phrase(new Synonyms("stop"), new Action() {
+			@Override
+			public void run(String text) {
+				Voice.say("Thank you for using our service. Au revoir!", false);
+				System.exit(0);
+			}
+		}));
+		
+		add(new Phrase(new Synonyms("say"), new Action() {
+			@Override
+			public void run(String text) {
+				Voice.say(text);
+			}
+		}));
+		
+		add(new Phrase(new Synonyms(new String[] {"tell me a joke"}), new String[] {
+				"Can a kangaroo jump higher than a house? Of course, a house doesn’t jump at all.", 
+				"Anton, do you think I am a good mother? Mom, my name is Paul.", 
+				"My dog used to chase people on a bike a lot. It got so bad, finally I had to take his bike away.", 
+				"My wife suffers from a drinking problem. Oh is she an alcoholic? No, I am, but she is the one who suffers.", 
+				"I managed to lose my rifle when I was in the army. I had to pay 855 dollars to cover the loss. I am starting to understand why a Navy captain always goes down with his ship.", 
+				"Whats the biggest lie in the entire universe? I have read and agree to the Terms and Conditions.", 
+				"Why are iPhone chargers not called Apple Juice?", 
+				"Patient: Doctor, I need your help. I am addicted to checking my Twitter! Doctor: I am so sorry, I don't follow you."
+		}));
+		
+		add(new Phrase(new Synonyms(new String[] { "Shut down my computer" }), new Action() {
+			@Override
+			public void run(String text) {
+				Voice.say("Your computer will shut down in one minute.");
+				try {
+					Runtime.getRuntime().exec("shutdown /s /t 60");
+				} catch (Exception e) {
+					Chat.sendError(e);
+				}
+			}
+		}));
+		
+		add(new Phrase(new Synonyms(new String[] { "Cancel shut down my computer" }), new Action() {
+			@Override
+			public void run(String text) {
+				Voice.say("Yes");
+				try {
+					Runtime.getRuntime().exec("shutdown /a");
+				} catch (Exception e) {
+					Chat.sendError(e);
+				}
+			}
+		}));
 		
 		
 		//Simple Questions
@@ -79,57 +161,7 @@ public class Phrases extends ArrayList<Phrase> {
 		
 		
 		//Other
-		add(new Phrase(new Synonyms("stop"), new Action() {
-			@Override
-			public void run(String text) {
-				Voice.say("Thank you for using our service. Au revoir!", false);
-				System.exit(0);
-			}
-		}));
-		
 		add(new Phrase(new Synonyms("plunger"), "Oh, I love plungers."));
-		
-		add(new Phrase(new Synonyms("say"), new Action() {
-			@Override
-			public void run(String text) {
-				Voice.say(text);
-			}
-		}));
-		
-		add(new Phrase(new Synonyms(new String[] {"tell me a joke"}), new String[] {
-				"Can a kangaroo jump higher than a house? Of course, a house doesn’t jump at all.", 
-				"Anton, do you think I am a good mother? Mom, my name is Paul.", 
-				"My dog used to chase people on a bike a lot. It got so bad, finally I had to take his bike away.", 
-				"My wife suffers from a drinking problem. Oh is she an alcoholic? No, I am, but she is the one who suffers.", 
-				"I managed to lose my rifle when I was in the army. I had to pay 855 dollars to cover the loss. I am starting to understand why a Navy captain always goes down with his ship.", 
-				"Whats the biggest lie in the entire universe? I have read and agree to the Terms and Conditions.", 
-				"Why are iPhone chargers not called Apple Juice?", 
-				"Patient: Doctor, I need your help. I am addicted to checking my Twitter! Doctor: I am so sorry, I don't follow you."
-		}));
-		
-		add(new Phrase(new Synonyms(new String[] { "Shut down my computer" }), new Action() {
-			@Override
-			public void run(String text) {
-				Voice.say("Your computer will shut down in one minute.");
-				try {
-					Runtime.getRuntime().exec("shutdown /s /t 60");
-				} catch (Exception e) {
-					Chat.sendError(e);
-				}
-			}
-		}));
-		
-		add(new Phrase(new Synonyms(new String[] { "Cancel shut down my computer" }), new Action() {
-			@Override
-			public void run(String text) {
-				Voice.say("Yes");
-				try {
-					Runtime.getRuntime().exec("shutdown /a");
-				} catch (Exception e) {
-					Chat.sendError(e);
-				}
-			}
-		}));
 	}
 	
 }

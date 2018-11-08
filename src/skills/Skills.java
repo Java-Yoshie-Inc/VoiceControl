@@ -7,7 +7,7 @@ public class Skills extends ArrayList<Skill> {
 	private static final long serialVersionUID = 1L;
 	
 	public Skills() {
-		
+		add(new Skill1());
 	}
 	
 }
