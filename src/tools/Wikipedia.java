@@ -18,7 +18,7 @@ public class Wikipedia {
 
 	public static String getInformation(String term) throws UnsupportedEncodingException, IOException {
 		String searchText = term + " wikipedia";
-		System.out.println("Searching...");
+		System.out.println("Searching for " + term + "...");
 
 		Document google = Jsoup.connect("https://www.google.com/search?q=" + URLEncoder.encode(searchText, encoding))
 				.userAgent("Mozilla/5.0").get();
@@ -38,7 +38,17 @@ public class Wikipedia {
 
 		String result = responseSB.split("extract\":\"")[1];
 		result = result.substring(0, result.length() - 5);
+		if(result == null || result.isEmpty()) {
+			result = "I am sorry. I wasn't able to find anything specific about " + term + ".";
+		}
+		result = result.replace("\\n", "");
+		result = result.replace(term + " may also refer to:", "");
+		result = result.replace(capitalize(term) + " may also refer to:", "");
 		return result;
+	}
+	
+	public static String capitalize(String input) {
+		return input.substring(0, 1).toUpperCase() + input.substring(1);
 	}
 
 }
