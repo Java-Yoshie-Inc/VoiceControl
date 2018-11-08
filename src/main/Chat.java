@@ -80,13 +80,15 @@ public class Chat {
 	}
 	
 	public static void send(Sender sender, String message) {
-		textArea.setText(textArea.getText() + sender.toString() +  ": " + message + System.lineSeparator());
+		textArea.append(sender.toString() +  ": " + message + System.lineSeparator());
 	}
 	
 	private static void processInput() {
 		String input = inputField.getText();
 		inputField.setText("");
-		//EVENT.say(input);
+		textArea.update(textArea.getGraphics());
+		inputField.update(inputField.getGraphics());
+		EVENT.say(input);
 		
 	}
 	
