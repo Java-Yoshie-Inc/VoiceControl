@@ -1,5 +1,6 @@
 package skills.quiz;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class QuizQuestion {
 		return CORRECT_ANSWER;
 	}
 	public String[] getAnswers() {
-		List<String> array = Arrays.asList(WRONG_ANSWERS);
+		List<String> array = new ArrayList<>(Arrays.asList(WRONG_ANSWERS));
 		array.add(CORRECT_ANSWER);
 		return array.toArray(new String[0]);
 	}

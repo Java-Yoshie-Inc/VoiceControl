@@ -53,7 +53,6 @@ public class Chat {
 		textArea.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		JScrollPane textAreaScrollPane = new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		textAreaScrollPane.setAutoscrolls(true);
 		panel.add(textAreaScrollPane, BorderLayout.CENTER);
 		
 		inputField = new JTextField();

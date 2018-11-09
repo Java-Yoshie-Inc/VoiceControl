@@ -13,7 +13,13 @@ public class QuizSkill extends Skill {
 	private static final QuizQuestion[] QUESTIONS = new QuizQuestion[] {
 			new QuizQuestion("How long is the Great Wall of China?", "400 miles", new String[] {"1000 miles", "100 miles", "265 miles"}), 
 			new QuizQuestion("Who invented Ferrari?", "Enzo Ferrari", new String[] {"Albert Einstein", "Alfred Hitchcock", "Jeff Bezos"}), 
-			new QuizQuestion("Which famous British women murderer of the 19th century was never arrested?", "Jack the Ripper", new String[] {"Roger Whittaker", "Micheal Jackson", "George Clooney"}), 
+			new QuizQuestion("Which famous British women murderer of the 19th century was never arrested?", "Jack the Ripper", new String[] {"Roger Whittaker", "Micheal Jackson", "George Clooney"}),
+			new QuizQuestion("What colour do you get when you mix red and white?", "Pink", new String[] {"Yellow", "Green", "Blue"}), 
+			new QuizQuestion("What temperature does water boil at?", "100 ° Celsius", new String[] {"107 ° Celsius", "200 ° Celsius", "50 ° Celsius"}),
+			new QuizQuestion("Who wrote Macbeth and Hamlet?", "Shakespeare", new String[] {"John Ashbery", "Steven Paulsen", "Joanne Rowling"}), 
+			new QuizQuestion("When did the First World War start?", "1914", new String[] {"1879", "1917", "1923"}), 
+			new QuizQuestion("What did Joseph Priesley discover in 1774?", "Oxygon", new String[] {"Chlorine", "Kunzite", "Emeralds"}), 
+			new QuizQuestion("Which is the only mammal that can't jump?", "Elephant", new String[] {"Kangaroo", "Mouse", "Tapir"}), 
 	};
 	
 	public QuizSkill(Bot bot) {
@@ -38,14 +44,21 @@ public class QuizSkill extends Skill {
 			}
 			
 			String input = null;
-			while(input == null || !isNumeric(input) || isNumeric(input) && Integer.parseInt(input) > answers.length) {
+			while(true) {
 				input = waitForInput();
+				if(!isNumeric(input)) {
+					Voice.say("That isn't a number", false);
+				} else if(isNumeric(input) && Integer.parseInt(input) > answers.length) {
+					Voice.say("You can only use a number between 1 and " + answers.length + ".", false);
+				} else {
+					break;
+				}
 			}
 			
-			if(answers[Integer.parseInt(input)-1].equalsIgnoreCase(question.getCorrectAnswer())) {
+			if(answers[Integer.parseInt(input)-1].equals(question.getCorrectAnswer())) {
 				Voice.say("That's correct.", false);
 			} else {
-				Voice.say("That's wrong.", false);
+				Voice.say("That's wrong. The correct answer is " + question.getCorrectAnswer(), false);
 			}
 		}
 	}
