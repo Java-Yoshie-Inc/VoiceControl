@@ -53,7 +53,11 @@ public class Phrases extends ArrayList<Phrase> {
 		add(new Phrase(new Synonyms(new String[] {"quit", "exit"}), new Action() {
 			@Override
 			public void run(String text) {
-				Voice.say("Thank you for using our service. Au revoir!", false);
+				Voice.say(new String[] {
+					"Thank you for using our service. Au revoir.", 
+					"Hasta la vista.", 
+					"See you later, alligator."
+				}, true, false);
 				System.exit(0);
 			}
 		}));

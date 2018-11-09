@@ -1,10 +1,13 @@
 package voice;
 
+import java.util.Random;
+
 import main.Chat;
 import main.Chat.Sender;
 
 public class Voice {
 	
+	private static Random random = new Random();
 	public static TextToSpeech tts = new TextToSpeech();
 	private static float volume = 1f;
 	
@@ -28,8 +31,8 @@ public class Voice {
 		}
 	}
 	
-	public static void stop() {
-		tts.stopSpeaking();
+	public static void say(String[] text, boolean print, boolean newThread) {
+		say(text[random.nextInt(text.length)], print, newThread);
 	}
 	
 	public static void say(String text, boolean newThread) {
@@ -38,6 +41,10 @@ public class Voice {
 	
 	public static void say(String text) {
 		say(text, true, true);
+	}
+	
+	public static void stop() {
+		tts.stopSpeaking();
 	}
 	
 	public static void setType(int id) {
