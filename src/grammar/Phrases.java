@@ -40,7 +40,7 @@ public class Phrases extends ArrayList<Phrase> {
 			@Override
 			public void run(String text) {
 				for(Skill skill : bot.getSkills()) {
-					if(skill.getSkillName().equalsIgnoreCase(text)) {
+					if(skill.getName().equalsIgnoreCase(text)) {
 						bot.setActiveSkill(skill);
 					}
 				}
@@ -50,7 +50,7 @@ public class Phrases extends ArrayList<Phrase> {
 		
 		
 		//Commands
-		add(new Phrase(new Synonyms("stop"), new Action() {
+		add(new Phrase(new Synonyms(new String[] {"quit", "exit"}), new Action() {
 			@Override
 			public void run(String text) {
 				Voice.say("Thank you for using our service. Au revoir!", false);

@@ -65,7 +65,7 @@ public class Bot {
 	
 	public void setActiveSkill(Skill activeSkill) {
 		if(this.activeSkill != null) {
-			this.activeSkill.interrupt();
+			this.activeSkill.stop();
 		}
 		this.activeSkill = activeSkill;
 		activeSkill.start();

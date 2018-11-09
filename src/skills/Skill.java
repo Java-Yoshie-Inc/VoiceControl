@@ -2,7 +2,9 @@ package skills;
 
 import main.Bot;
 
-public abstract class Skill extends Thread {
+public abstract class Skill {
+	
+	private Thread THREAD;
 	
 	protected final String NAME;
 	protected final Bot bot;
@@ -15,16 +17,22 @@ public abstract class Skill extends Thread {
 		this.bot = bot;
 	}
 	
-	@Override
 	public void start() {
-		super.start();
+		bot.getSpeechRecognizer().setUseActivationWord(false);
+		stop();
+		this.THREAD = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				setup();
+			}
+		});
+		THREAD.start();
 	}
 	
-	@Override
-	public void run() {
-		super.run();
-		bot.getSpeechRecognizer().setUseActivationWord(false);
-		setup();
+	public void stop() {
+		if(THREAD != null) {
+			THREAD.interrupt();
+		}
 	}
 	
 	protected abstract void setup();
@@ -48,7 +56,7 @@ public abstract class Skill extends Thread {
 		this.lastInput = input;
 	}
 	
-	public String getSkillName() {
+	public String getName() {
 		return NAME;
 	}
 	
