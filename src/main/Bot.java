@@ -33,8 +33,9 @@ public class Bot {
 			System.out.println("Recognized: " + input);
 			Chat.send(Sender.User, input);
 			if(STOP.getSynonyms().equals(input)) {
-				setActiveSkill(new StandardSkill(Bot.this));
 				Voice.stop();
+				setActiveSkill(new StandardSkill(Bot.this));
+				return;
 			}
 			activeSkill.sendInput(input);
 		}

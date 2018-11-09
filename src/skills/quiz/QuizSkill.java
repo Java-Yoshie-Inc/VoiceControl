@@ -38,7 +38,7 @@ public class QuizSkill extends Skill {
 			QuizQuestion question = QUESTIONS[random.nextInt(QUESTIONS.length)];
 			Voice.say(question.toString(), false);
 			
-			String[] answers = question.getAnswers();
+			String[] answers = question.getShuffledAnswers();
 			for(int i=0; i < answers.length; i++) {
 				Voice.say(i+1 + ": " + answers[i], false);
 			}

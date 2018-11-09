@@ -2,6 +2,7 @@ package skills.quiz;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class QuizQuestion {
@@ -30,6 +31,11 @@ public class QuizQuestion {
 	public String[] getAnswers() {
 		List<String> array = new ArrayList<>(Arrays.asList(WRONG_ANSWERS));
 		array.add(CORRECT_ANSWER);
+		return array.toArray(new String[0]);
+	}
+	public String[] getShuffledAnswers() {
+		List<String> array = Arrays.asList(getAnswers());
+		Collections.shuffle(array);
 		return array.toArray(new String[0]);
 	}
 	
