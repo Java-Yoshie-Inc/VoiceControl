@@ -20,7 +20,17 @@ public class QuizSkill extends Skill {
 			new QuizQuestion("When did the First World War start?", "1914", new String[] {"1879", "1917", "1923"}), 
 			new QuizQuestion("What did Joseph Priesley discover in 1774?", "Oxygon", new String[] {"Chlorine", "Kunzite", "Emeralds"}), 
 			new QuizQuestion("Which is the only mammal that can't jump?", "Elephant", new String[] {"Kangaroo", "Mouse", "Tapir"}), 
+			new QuizQuestion("Who interpreted the dreams of Pharaoh in the the Bible?", "Joseph", new String[] {"Daniel", "David", "Samuel"}),
+			new QuizQuestion("Who is the author of Ben Hur?", "Lew Wallace", new String[] {"William Shakespeare", "Victor Huge", "Bernard Shaw"}),
+			new QuizQuestion("Which game is played with five players on either side?", "Basketball", new String[] {"Volleyball", "Hockey", "Football"}),
+			new QuizQuestion("What is the capital of Afghanistan", "Kabul", new String[] {"Teheran", "Baghdad", "Tashkent"}),
+			new QuizQuestion("Who killed US President Abraham Lincoln?", "John Wilkes Booth", new String[] {"Lee Harvey Oswald", "John Hinckley", "Michael Schiavo"}),
+			new QuizQuestion("Who won the Hockey World Cup in 1975?", "India", new String[] {"Pakistan", "Germany", "Australia"}),
+			new QuizQuestion("Which TV news channel began to telecast in 1980?", "CNN", new String[] {"Star News", "BBC", "Fox News"}),
+			new QuizQuestion("Which of the following is not a gas?", "Mercury", new String[] {"Nitrogen", "Oxygon", "Helium"}), 
 	};
+	
+	private QuizQuestion lastQuestion = null;
 	
 	public QuizSkill(Bot bot) {
 		super(bot, "Quiz");
@@ -35,7 +45,11 @@ public class QuizSkill extends Skill {
 	@Override
 	protected void loop() {
 		while(true) {
-			QuizQuestion question = QUESTIONS[random.nextInt(QUESTIONS.length)];
+			QuizQuestion question = null;
+			while(question == null || question.equals(lastQuestion)) {
+				question = QUESTIONS[random.nextInt(QUESTIONS.length)];
+			}
+			
 			Voice.say(question.toString(), false);
 			
 			String[] answers = question.getShuffledAnswers();
@@ -58,8 +72,10 @@ public class QuizSkill extends Skill {
 			if(answers[Integer.parseInt(input)-1].equals(question.getCorrectAnswer())) {
 				Voice.say("That's correct.", false);
 			} else {
-				Voice.say("That's wrong. The correct answer is " + question.getCorrectAnswer(), false);
+				Voice.say("That's wrong. The correct answer is " + question.getCorrectAnswer() + ".", false);
 			}
+			
+			lastQuestion = question;
 		}
 	}
 	
