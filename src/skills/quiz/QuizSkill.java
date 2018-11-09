@@ -39,24 +39,27 @@ public class QuizSkill extends Skill {
 	@Override
 	public void setup() {
 		Voice.say("Welcome to " + NAME, false);
-		loop();
 	}
 	
 	@Override
 	protected void loop() {
 		while(true) {
+			//Generate Question
 			QuizQuestion question = null;
 			while(question == null || question.equals(lastQuestion)) {
 				question = QUESTIONS[random.nextInt(QUESTIONS.length)];
 			}
 			
+			//Say Question
 			Voice.say(question.toString(), false);
 			
+			//Say Answer Possibilities
 			String[] answers = question.getShuffledAnswers();
 			for(int i=0; i < answers.length; i++) {
 				Voice.say(i+1 + ": " + answers[i], false);
 			}
 			
+			//Wait for new Input
 			String input = null;
 			while(true) {
 				input = waitForInput();
@@ -69,6 +72,7 @@ public class QuizSkill extends Skill {
 				}
 			}
 			
+			//Return Result
 			if(answers[Integer.parseInt(input)-1].equals(question.getCorrectAnswer())) {
 				Voice.say("That's correct.", false);
 			} else {

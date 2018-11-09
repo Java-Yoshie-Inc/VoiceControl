@@ -20,10 +20,11 @@ public abstract class Skill {
 	public void start() {
 		bot.getSpeechRecognizer().setUseActivationWord(false);
 		stop();
+		setup();
 		this.THREAD = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				setup();
+				loop();
 			}
 		});
 		THREAD.start();

@@ -15,7 +15,7 @@ public class StandardSkill extends Skill {
 	
 	@Override
 	public void setup() {
-		loop();
+		
 	}
 	
 	@Override
