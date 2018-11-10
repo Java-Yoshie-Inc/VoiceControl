@@ -14,6 +14,7 @@ import voice.Voice;
 
 public class Bot {
 	
+	private final ActivationWord activationWord = ActivationWord.Computer;
 	private final Phrases PHRASES = new Phrases(this);
 	private final Skills SKILLS = new Skills(this);
 	
@@ -53,7 +54,7 @@ public class Bot {
 	public Bot() {
 		Chat.init(EVENT);
 		
-		speechRecognizer = new SpeechRecognizer(ActivationWord.Hey, EVENT);
+		speechRecognizer = new SpeechRecognizer(activationWord, EVENT);
 		speechRecognizer.setUseActivationWord(true);
 		speechRecognizer.setBlacklist(new InputBlacklist());
 		
@@ -78,6 +79,10 @@ public class Bot {
 	
 	public SpeechRecognizer getSpeechRecognizer() {
 		return this.speechRecognizer;
+	}
+	
+	public ActivationWord getActivationWord() {
+		return this.activationWord;
 	}
 	
 }

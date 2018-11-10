@@ -35,6 +35,7 @@ public class StandardSkill extends Skill {
 				}
 			}
 			if (phrase != null && similarity >= 0.2f) {
+				System.out.println(similarity + " " + phrase);
 				phrase.run(input.toLowerCase());
 			} else {
 				String oldWords = input;

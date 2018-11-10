@@ -1,5 +1,7 @@
 package grammar;
 
+import tools.StringUtils;
+
 public class PhraseComparison {
 	
 	private final Phrase phrase;
@@ -16,28 +18,7 @@ public class PhraseComparison {
 		String bestSynonym = null;
 		
 		for (String synonym : phrase.getSynonyms()) {
-			float similarity = 0;
-			String[] words = synonym.split(" ");
-			for (String word : text.split(" ")) {
-				for (String word2 : words) {
-					if (word.toLowerCase().equals(word2.toLowerCase())) {
-						similarity++;
-						break;
-					} else {
-						for (int i = 3; i < word.length(); i++) {
-							String substring = word.substring(i - 3, i);
-							for (int j = 3; j < word2.length(); j++) {
-								String substring2 = word2.substring(j - 3, j);
-								if (substring.equals(substring2)) {
-									similarity += 0.5;
-								}
-							}
-						}
-					}
-				}
-			}
-			
-			float similarityPercentage = (float) similarity / words.length;
+			float similarityPercentage = StringUtils.getSimilarity1(text, synonym);
 			if (similarityPercentage > highestSimilarity) {
 				highestSimilarity = similarityPercentage;
 			}

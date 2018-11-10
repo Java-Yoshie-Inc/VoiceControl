@@ -39,10 +39,16 @@ public class Phrases extends ArrayList<Phrase> {
 		add(new Phrase(new Synonyms(new String[] {"start"}), new Action() {
 			@Override
 			public void run(String text) {
+				boolean foundSkill = false;
 				for(Skill skill : bot.getSkills()) {
 					if(skill.getName().equalsIgnoreCase(text)) {
 						bot.setActiveSkill(skill);
+						foundSkill = true;
+						break;
 					}
+				}
+				if(!foundSkill) {
+					Voice.say("I am sorry, I couldn't find that skill.");
 				}
 			}
 		}));

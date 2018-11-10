@@ -29,7 +29,7 @@ public class QuizSkill extends Skill {
 			new QuizQuestion("Which TV news channel began to telecast in 1980?", "CNN", new String[] {"Star News", "BBC", "Fox News"}),
 			new QuizQuestion("Which of the following is not a gas?", "Mercury", new String[] {"Nitrogen", "Oxygon", "Helium"}),
 			new QuizQuestion("What colour do you get when you mix red and green?", "Yellow", new String[] {"Blue", "Cyan", "Orange"}), 
-			new QuizQuestion("Who is the owner of Microsoft?", "Bill Gates", new String[] {"Will Smith", "Jeff Bezos", "Daniel Radcliffe"}), 
+			new QuizQuestion("Who is the founder of Microsoft?", "Bill Gates", new String[] {"Will Smith", "Jeff Bezos", "Daniel Radcliffe"}), 
 	};
 	
 	private QuizQuestion lastQuestion = null;

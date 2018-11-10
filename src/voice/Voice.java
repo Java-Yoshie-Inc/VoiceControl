@@ -8,7 +8,7 @@ import main.Chat.Sender;
 public class Voice {
 	
 	private static Random random = new Random();
-	public static TextToSpeech tts = new TextToSpeech();
+	private static TextToSpeech tts = new TextToSpeech();
 	private static float volume = 1f;
 	
 	private static Thread thread;
