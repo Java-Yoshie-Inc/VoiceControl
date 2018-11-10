@@ -1,8 +1,6 @@
 package grammar;
 
 import java.awt.Desktop;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,9 +27,11 @@ public class Phrases extends ArrayList<Phrase> {
 	
 	private void load() {
 		//Smalltalk
-		add(new Phrase(new Synonyms(new String[] { "Hello", "Hi", "Good Morning", "Good Evening"}), new String[] { "Hello", "Hi" }));
+		add(new Phrase(new Synonyms(new String[] { "Hello", "Hey", "Hi", "Good Morning", "Good Evening"}), new String[] { "Hello", "Hi" }));
 		
-		add(new Phrase(new Synonyms("how are you"), new String[] { "Oh, I am fine!", "Great" }));
+		add(new Phrase(new Synonyms(new String[] {"How are you?", "How are you doing?"}), new String[] { "Oh, I am fine!", "Great" }));
+		
+		add(new Phrase(new Synonyms(new String[] {"Who are you?", "What are you?"}), "I am " + bot.getActivationWord() + ", your personal assistant. You can ask me everythink and I am going to help you.-"));
 		
 		
 		
@@ -75,6 +75,17 @@ public class Phrases extends ArrayList<Phrase> {
 			public void run(String text) {
 				bot.getSpeechRecognizer().setBlockInputs(false);
 				Voice.say("Microphone activated");
+			}
+		}));
+		
+		add(new Phrase(new Synonyms("volume"), new Action() {
+			@Override
+			public void run(String text) {
+				try {
+					Voice.setVolume(Integer.parseInt(text) / 100f);
+				} catch(NumberFormatException e) {
+					Chat.sendError(e);
+				}
 			}
 		}));
 		
@@ -150,10 +161,8 @@ public class Phrases extends ArrayList<Phrase> {
 				try {
 					String result = Wikipedia.getInformation(term);
 					Voice.say(result, true);
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					Chat.sendError(e);
 				}
 			}
 		}));

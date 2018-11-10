@@ -99,7 +99,7 @@ public class Chat {
 	}
 	
 	public static void sendError(Exception e) {
-		Chat.send(Sender.Error, e.getMessage());
+		Chat.send(Sender.Error, e.getClass().getSimpleName() + " -> " + e.getMessage());
 	}
 	
 }
