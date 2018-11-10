@@ -1,6 +1,19 @@
 package tools;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringUtils {
+	
+	public static String[] getPossibleSubstrings(String str) {
+		List<String> array = new ArrayList<String>();
+		for (int i = 0; i < str.length(); i++) {
+			for (int j = i + 1; j <= str.length(); j++) {
+				array.add(str.substring(i, j));
+			}
+		}
+		return array.toArray(new String[0]);
+	}
 	
 	public static float getSimilarity1(String s1, String s2) {
 		String longer = s1, shorter = s2;

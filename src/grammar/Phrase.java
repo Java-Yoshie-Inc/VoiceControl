@@ -2,6 +2,7 @@ package grammar;
 
 import java.util.Random;
 
+import tools.StringUtils;
 import voice.Voice;
 
 public class Phrase {
@@ -58,12 +59,28 @@ public class Phrase {
 		}
 	}
 	
-	private String getParameter(String parameter) {
+	private String getParameter(String text) {
+		String[] substrings = StringUtils.getPossibleSubstrings(text);
+		String bestSubstring = "";
+		float highestSimilarity = 0f;
+		
 		for(String synonym : synonyms) {
+			for(String substring : substrings) {
+				float similarity = StringUtils.getSimilarity1(substring, synonym);
+				if(similarity > highestSimilarity) {
+					highestSimilarity = similarity;
+					bestSubstring = substring;
+				}
+			}
+		}
+		
+		return text.replace(bestSubstring, "").trim();
+		
+		/*for(String synonym : synonyms) {
 			parameter = parameter.replaceAll(synonym, "");
 		}
 		parameter = parameter.trim();
-		return parameter;
+		return parameter;*/
 	}
 	
 	@Override
