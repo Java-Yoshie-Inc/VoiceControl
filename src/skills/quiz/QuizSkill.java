@@ -4,6 +4,7 @@ import java.util.Random;
 
 import main.Bot;
 import skills.Skill;
+import tools.StringUtils;
 import voice.Voice;
 
 public class QuizSkill extends Skill {
@@ -65,9 +66,8 @@ public class QuizSkill extends Skill {
 			String input = null;
 			while(true) {
 				input = waitForInput();
-				if(!isNumeric(input)) {
-					Voice.say("That isn't a number", false);
-				} else if(isNumeric(input) && Integer.parseInt(input) > answers.length) {
+				int number = StringUtils.getNumber(input);
+				if(number > answers.length || number < 1) {
 					Voice.say("You can only use a number between 1 and " + answers.length + ".", false);
 				} else {
 					break;
@@ -75,7 +75,7 @@ public class QuizSkill extends Skill {
 			}
 			
 			//Return Result
-			if(answers[Integer.parseInt(input)-1].equals(question.getCorrectAnswer())) {
+			if(answers[StringUtils.getNumber(input)-1].equals(question.getCorrectAnswer())) {
 				Voice.say("That's correct.", false);
 			} else {
 				Voice.say("That's wrong. The correct answer is " + question.getCorrectAnswer() + ".", false);
