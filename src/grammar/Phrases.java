@@ -71,7 +71,7 @@ public class Phrases extends ArrayList<Phrase> {
 		add(new Phrase(new Synonyms("deactivate microphone"), new Action() {
 			@Override
 			public void run(String text) {
-				bot.getSpeechRecognizer().setBlockInputs(true);
+				bot.setIgnoreInputs(true);
 				Voice.say("Microphone deactivated");
 			}
 		}));
@@ -79,7 +79,7 @@ public class Phrases extends ArrayList<Phrase> {
 		add(new Phrase(new Synonyms("activate microphone"), new Action() {
 			@Override
 			public void run(String text) {
-				bot.getSpeechRecognizer().setBlockInputs(false);
+				bot.setIgnoreInputs(false);
 				Voice.say("Microphone activated");
 			}
 		}));

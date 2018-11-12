@@ -15,7 +15,6 @@ import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.result.WordResult;
-import grammar.ActivationWord;
 import voice.Voice;
 
 public class SpeechRecognizer {
@@ -23,7 +22,6 @@ public class SpeechRecognizer {
 	private LiveSpeechRecognizer recognizer;
 	private Logger logger = Logger.getLogger(getClass().getName());
 	
-	private final ActivationWord NAME;
 	private final SpeechRecognizeEvent EVENT;
 	private ArrayList<String> blacklist = new ArrayList<String>();
 	
@@ -31,13 +29,8 @@ public class SpeechRecognizer {
 	private boolean speechRecognizerThreadRunning = false;
 	private boolean resourcesThreadRunning;
 	private ExecutorService eventsExecutorService = Executors.newFixedThreadPool(2); //This executor service is used in order the playerState events to be executed in an order
-	private boolean blockInputs = false;
 	
-	private boolean useActivationWord = true;
-	private boolean isEnabled = false;
-	
-	public SpeechRecognizer(ActivationWord name, SpeechRecognizeEvent event) {
-		this.NAME = name;
+	public SpeechRecognizer(SpeechRecognizeEvent event) {
 		this.EVENT = event;
 		
 		// FORMAT
@@ -105,13 +98,11 @@ public class SpeechRecognizer {
 							if (speechResult == null) {
 								logger.log(Level.INFO, "I can't understand what you said.");
 							} else {
-								if(!blockInputs) {
-									//Get the hypothesis
-									String speechRecognitionResult = speechResult.getHypothesis();
-									
-									//Call the appropriate method 
-									makeDecision(speechRecognitionResult, speechResult.getWords());
-								}
+								//Get the hypothesis
+								String speechRecognitionResult = speechResult.getHypothesis();
+								
+								//Call the appropriate method 
+								makeDecision(speechRecognitionResult, speechResult.getWords());
 							}
 						} else
 							logger.log(Level.INFO, "Ingoring Speech Recognition Results...");
@@ -160,16 +151,20 @@ public class SpeechRecognizer {
 		//System.out.println(speech + " " + Arrays.deepToString(speechWords.toArray(new WordResult[0])));
 		//System.out.println(speech + " " + useActivationWord);
 		
-		if(!useActivationWord || NAME.getSynonyms().equals(speech)) {
-			isEnabled = true;
-			if(useActivationWord) {
-				Voice.say("Yes", false, true);
+		System.out.println("Recognized: " + speech);
+		
+		for(String string : blacklist) {
+			if(string.equals(speech)) {
 				return;
 			}
 		}
 		
-		for(String string : blacklist) {
-			if(string.equals(speech)) {
+		EVENT.say(speech);
+		
+		/*if(!useActivationWord || NAME.getSynonyms().equals(speech)) {
+			isEnabled = true;
+			if(useActivationWord) {
+				Voice.say("Yes", false, true);
 				return;
 			}
 		}
@@ -179,7 +174,7 @@ public class SpeechRecognizer {
 			EVENT.say(speech);
 		} else {
 			System.out.println("Cant understand: " + speech);
-		}
+		}*/
 	}
 	
 	public synchronized void setIgnoreSpeechRecognitionResults(boolean ignore) {
@@ -191,20 +186,11 @@ public class SpeechRecognizer {
 	public boolean getSpeechRecognizerThreadRunning() {
 		return speechRecognizerThreadRunning;
 	}
-	public boolean useActivationWord() {
-		return useActivationWord;
-	}
-	public void setUseActivationWord(boolean useActivationWord) {
-		this.useActivationWord = useActivationWord;
-	}
 	public ArrayList<String> getBlacklist() {
 		return blacklist;
 	}
 	public void setBlacklist(ArrayList<String> blacklist) {
 		this.blacklist = blacklist;
-	}
-	public void setBlockInputs(boolean blockInputs) {
-		this.blockInputs = blockInputs;
 	}
 	
 }

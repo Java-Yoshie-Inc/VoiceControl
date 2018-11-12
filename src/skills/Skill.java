@@ -4,7 +4,7 @@ import main.Bot;
 
 public abstract class Skill {
 	
-	private Thread THREAD;
+	protected Thread THREAD;
 	
 	protected final String NAME;
 	protected final Bot bot;
@@ -18,7 +18,7 @@ public abstract class Skill {
 	}
 	
 	public void start() {
-		bot.getSpeechRecognizer().setUseActivationWord(false);
+		bot.setUseActivationWord(false);
 		stop();
 		setup();
 		this.THREAD = new Thread(new Runnable() {
@@ -30,9 +30,10 @@ public abstract class Skill {
 		THREAD.start();
 	}
 	
-	public void stop() {
+	public synchronized void stop() {
 		if(THREAD != null) {
 			THREAD.interrupt();
+			System.out.println("stopped thread");
 		}
 	}
 	

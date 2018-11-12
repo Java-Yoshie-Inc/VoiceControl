@@ -21,7 +21,9 @@ public class StandardSkill extends Skill {
 	@Override
 	protected void loop() {
 		while(true) {
-			bot.getSpeechRecognizer().setUseActivationWord(true);
+			System.err.println("ICH BIN NOCH DOCH DA");
+			
+			bot.setUseActivationWord(true);
 			String input = waitForInput();
 			
 			float similarity = 0;
@@ -41,7 +43,7 @@ public class StandardSkill extends Skill {
 				String oldWords = input;
 				Voice.say("Should I search for " + input + "?", false);
 				
-				bot.getSpeechRecognizer().setUseActivationWord(false);
+				bot.setUseActivationWord(false);
 				input = waitForInput();
 				
 				if (input.toLowerCase().equals("yes")) {
@@ -55,7 +57,7 @@ public class StandardSkill extends Skill {
 					Voice.say("Ok");
 				}
 			}
-		}	
+		}
 	}
 	
 }

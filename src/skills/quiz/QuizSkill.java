@@ -41,6 +41,7 @@ public class QuizSkill extends Skill {
 	
 	@Override
 	public void setup() {
+		System.out.println("jeztt hier setup");
 		Voice.say("Welcome to " + NAME, false);
 	}
 	

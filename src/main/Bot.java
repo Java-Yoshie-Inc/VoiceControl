@@ -2,11 +2,9 @@ package main;
 
 import grammar.Action;
 import grammar.ActivationWord;
-import grammar.InputBlacklist;
 import grammar.Phrase;
 import grammar.Phrases;
 import grammar.Synonyms;
-import main.Chat.Sender;
 import skills.Skill;
 import skills.Skills;
 import skills.StandardSkill;
@@ -14,12 +12,15 @@ import voice.Voice;
 
 public class Bot {
 	
+	public enum Source {Chat, SpeechRecognition}
 	private final ActivationWord activationWord = ActivationWord.Computer;
 	private final Phrases PHRASES = new Phrases(this);
 	private final Skills SKILLS = new Skills(this);
 	
-	private SpeechRecognizer speechRecognizer;
 	private Skill activeSkill;
+	private boolean ignoreInputs = false;
+	private boolean useActivationWord = true;
+	private boolean isEnabled = false;
 	
 	private final Phrase STOP = new Phrase(new Synonyms(new String[] {"stop"}), new Action() {
 		@Override
@@ -28,37 +29,35 @@ public class Bot {
 		}
 	});
 	
-	private final SpeechRecognizeEvent EVENT = new SpeechRecognizeEvent() {
-		@Override
-		public void say(String input) {
-			System.out.println("Recognized: " + input);
-			Chat.send(Sender.User, input);
-			if(STOP.getSynonyms().equals(input)) {
-				Voice.stop();
-				setActiveSkill(new StandardSkill(Bot.this));
-				return;
-			}
-			activeSkill.sendInput(input);
-		}
-	};
-	
-	public static void main(String[] args) {
-		new Bot();
-	}
-	
-	static {
-		Voice.setType(2);
-		Voice.setVolume(1f);
-	}
-	
-	public Bot() {
-		Chat.init(EVENT);
-		
-		speechRecognizer = new SpeechRecognizer(activationWord, EVENT);
-		speechRecognizer.setUseActivationWord(true);
-		speechRecognizer.setBlacklist(new InputBlacklist());
-		
+	public Bot() {		
 		setActiveSkill(new StandardSkill(this));
+	}
+	
+	public boolean react(Source source, String input) {
+		if(!ignoreInputs || source == Source.Chat) {
+			if(!useActivationWord || activationWord.getSynonyms().equals(input) && !isEnabled) {
+				isEnabled = true;
+				if(useActivationWord) {
+					Voice.say("Yes", false, true);
+					return false;
+				}
+			}
+			
+			if(isEnabled) {
+				if(STOP.getSynonyms().equals(input)) {
+					Voice.stop();
+					STOP.run(input);
+					return true;
+				}
+				isEnabled = false;
+				activeSkill.sendInput(input);
+				return true;
+			} else {
+				System.out.println("Cannot identify " + input + " as activation word");
+				return false;
+			}
+		}
+		return false;
 	}
 	
 	public Skills getSkills() {
@@ -72,17 +71,19 @@ public class Bot {
 		this.activeSkill = activeSkill;
 		activeSkill.start();
 	}
-
+	
 	public Phrases getPhrases() {
 		return PHRASES;
 	}
 	
-	public SpeechRecognizer getSpeechRecognizer() {
-		return this.speechRecognizer;
-	}
-	
 	public ActivationWord getActivationWord() {
 		return this.activationWord;
+	}
+	public void setIgnoreInputs(boolean ignore) {
+		this.ignoreInputs = ignore;
+	}
+	public void setUseActivationWord(boolean useActivationWord) {
+		this.useActivationWord = useActivationWord;
 	}
 	
 }
