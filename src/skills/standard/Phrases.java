@@ -1,4 +1,4 @@
-package grammar;
+package skills.standard;
 
 import java.awt.Desktop;
 import java.net.URI;
@@ -8,6 +8,9 @@ import java.util.Calendar;
 
 import com.ibm.icu.text.DateFormatSymbols;
 
+import grammar.Action;
+import grammar.Phrase;
+import grammar.Synonyms;
 import main.Bot;
 import main.Chat;
 import skills.Skill;
@@ -183,6 +186,15 @@ public class Phrases extends ArrayList<Phrase> {
 				} catch (Exception e) {
 					Chat.sendError(e);
 				}
+			}
+		}));
+		
+		add(new Phrase(new Synonyms(new String[] {"what are the three laws of robotics"}), new Action() {
+			@Override
+			public void run(String location) {
+				Voice.say("First Law: A robot may not injure a human being or, through inaction, allow a human being to come to harm. " + 
+						"Second Law: A robot must obey the orders given it by human beings except where such orders would conflict with the First Law. " + 
+						"Third Law: A robot must protect its own existence as long as such protection does not conflict with the First or Second Laws.");
 			}
 		}));
 		
