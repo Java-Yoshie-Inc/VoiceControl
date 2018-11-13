@@ -1,10 +1,14 @@
 package skills;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import main.Bot;
 
 public abstract class Skill {
 	
-	protected Thread THREAD;
+	protected ScheduledExecutorService service;
 	
 	protected final String NAME;
 	protected final Bot bot;
@@ -21,19 +25,19 @@ public abstract class Skill {
 		bot.setUseActivationWord(false);
 		stop();
 		setup();
-		this.THREAD = new Thread(new Runnable() {
+		service = Executors.newSingleThreadScheduledExecutor();
+		service.scheduleWithFixedDelay(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println(this);
 				loop();
 			}
-		});
-		THREAD.start();
+		}, 0, 10, TimeUnit.MILLISECONDS);
 	}
 	
 	public synchronized void stop() {
-		if(THREAD != null) {
-			THREAD.interrupt();
-			System.out.println("stopped thread");
+		if(service != null) {
+			service.shutdownNow();
 		}
 	}
 	
