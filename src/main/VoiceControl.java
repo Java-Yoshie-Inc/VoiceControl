@@ -22,7 +22,7 @@ public class VoiceControl {
 		Chat.init(new SpeechRecognizeEvent() {
 			@Override
 			public void say(String input) {
-				boolean processed = bot.react(Source.SpeechRecognition, input);
+				boolean processed = bot.react(Source.Chat, input);
 				if(processed) {
 					Chat.send(Sender.User, input);
 				}

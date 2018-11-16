@@ -1,9 +1,10 @@
-package skills;
+package skills.standard;
 
 import grammar.Phrase;
 import grammar.PhraseComparison;
 import main.Bot;
 import main.Chat;
+import skills.Skill;
 import tools.Wikipedia;
 import voice.Voice;
 
@@ -33,7 +34,7 @@ public class StandardSkill extends Skill {
 				phrase = templatePhrase;
 			}
 		}
-		if (phrase != null && similarity >= 0.2f) {
+		if (phrase != null && similarity >= 0.3f) {
 			System.out.println(similarity + " " + phrase);
 			phrase.run(input.toLowerCase());
 		} else {

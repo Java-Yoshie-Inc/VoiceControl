@@ -3,11 +3,11 @@ package main;
 import grammar.Action;
 import grammar.ActivationWord;
 import grammar.Phrase;
-import grammar.Phrases;
 import grammar.Synonyms;
 import skills.Skill;
 import skills.Skills;
-import skills.StandardSkill;
+import skills.standard.Phrases;
+import skills.standard.StandardSkill;
 import voice.Voice;
 
 public class Bot {
@@ -35,9 +35,9 @@ public class Bot {
 	
 	public boolean react(Source source, String input) {
 		if(!ignoreInputs || source == Source.Chat) {
-			if(!useActivationWord || activationWord.getSynonyms().equals(input) && !isEnabled) {
+			if(!useActivationWord || activationWord.getSynonyms().equals(input) && !isEnabled || source == Source.Chat) {
 				isEnabled = true;
-				if(useActivationWord) {
+				if(useActivationWord && source != Source.Chat) {
 					Voice.say("Yes", false, true);
 					return false;
 				}

@@ -1,4 +1,4 @@
-package grammar;
+package skills.standard;
 
 import java.awt.Desktop;
 import java.net.URI;
@@ -8,6 +8,9 @@ import java.util.Calendar;
 
 import com.ibm.icu.text.DateFormatSymbols;
 
+import grammar.Action;
+import grammar.Phrase;
+import grammar.Synonyms;
 import main.Bot;
 import main.Chat;
 import skills.Skill;
@@ -31,7 +34,7 @@ public class Phrases extends ArrayList<Phrase> {
 		
 		add(new Phrase(new Synonyms(new String[] {"How are you?", "How are you doing?"}), new String[] { "Oh, I am fine!", "Great" }));
 		
-		add(new Phrase(new Synonyms(new String[] {"Who are you?", "What are you?"}), "I am " + bot.getActivationWord() + ", your personal assistant. You can ask me everythink and I am going to help you.-"));
+		add(new Phrase(new Synonyms(new String[] {"Who are you?", "What are you?"}), "I am " + bot.getActivationWord() + ", your personal assistant. You can ask me everythink and I am going to help you."));
 		
 		
 		
@@ -173,6 +176,13 @@ public class Phrases extends ArrayList<Phrase> {
 			}
 		}));
 		
+		add(new Phrase(new Synonyms(new String[] {"what are your hobbies", "what hobbies do you have"}), new Action() {
+			@Override
+			public void run(String term) {
+				Voice.say("My only job is to serve you.");
+			}
+		}));
+		
 		add(new Phrase(new Synonyms(new String[] {"where is", "where can I find", "where are"}), new Action() {
 			@Override
 			public void run(String location) {
@@ -183,6 +193,15 @@ public class Phrases extends ArrayList<Phrase> {
 				} catch (Exception e) {
 					Chat.sendError(e);
 				}
+			}
+		}));
+		
+		add(new Phrase(new Synonyms(new String[] {"what are the three laws of robotics"}), new Action() {
+			@Override
+			public void run(String location) {
+				Voice.say("First Law: A robot may not injure a human being or, through inaction, allow a human being to come to harm. " + 
+						"Second Law: A robot must obey the orders given it by human beings except where such orders would conflict with the First Law. " + 
+						"Third Law: A robot must protect its own existence as long as such protection does not conflict with the First or Second Laws.");
 			}
 		}));
 		
