@@ -29,7 +29,6 @@ public abstract class Skill {
 		service.scheduleWithFixedDelay(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println(this);
 				loop();
 			}
 		}, 0, 10, TimeUnit.MILLISECONDS);
