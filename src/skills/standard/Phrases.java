@@ -34,7 +34,7 @@ public class Phrases extends ArrayList<Phrase> {
 		
 		add(new Phrase(new Synonyms(new String[] {"How are you?", "How are you doing?"}), new String[] { "Oh, I am fine!", "Great" }));
 		
-		add(new Phrase(new Synonyms(new String[] {"Who are you?", "What are you?"}), "I am " + bot.getActivationWord() + ", your personal assistant. You can ask me everythink and I am going to help you.-"));
+		add(new Phrase(new Synonyms(new String[] {"Who are you?", "What are you?"}), "I am " + bot.getActivationWord() + ", your personal assistant. You can ask me everythink and I am going to help you."));
 		
 		
 		
@@ -173,6 +173,13 @@ public class Phrases extends ArrayList<Phrase> {
 				} catch (Exception e) {
 					Chat.sendError(e);
 				}
+			}
+		}));
+		
+		add(new Phrase(new Synonyms(new String[] {"what are your hobbies", "what hobbies do you have"}), new Action() {
+			@Override
+			public void run(String term) {
+				Voice.say("My only job is to serve you.");
 			}
 		}));
 		
