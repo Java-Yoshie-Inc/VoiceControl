@@ -1,6 +1,11 @@
 package skills.standard;
 
+import java.awt.AWTException;
 import java.awt.Desktop;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.Robot;
+import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,9 +27,15 @@ public class Phrases extends ArrayList<Phrase> {
 	private static final long serialVersionUID = 1L;
 	
 	private Bot bot;
+	private Robot robot;
 	
 	public Phrases(Bot bot) {
 		this.bot = bot;
+		try {
+			robot = new Robot();
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
 		load();
 	}
 	
@@ -32,9 +43,15 @@ public class Phrases extends ArrayList<Phrase> {
 		//Smalltalk
 		add(new Phrase(new Synonyms(new String[] { "Hello", "Hey", "Hi", "Good Morning", "Good Evening"}), new String[] { "Hello", "Hi" }));
 		
-		add(new Phrase(new Synonyms(new String[] {"How are you?", "How are you doing?"}), new String[] { "Oh, I am fine!", "Great" }));
+		add(new Phrase(new Synonyms(new String[] {"How are you", "How are you doing"}), new String[] { "Oh, I am fine!", "Great" }));
 		
-		add(new Phrase(new Synonyms(new String[] {"Who are you?", "What are you?"}), "I am " + bot.getActivationWord() + ", your personal assistant. You can ask me everythink and I am going to help you."));
+		add(new Phrase(new Synonyms(new String[] {"Who are you", "What are you"}), "I am " + bot.getActivationWord() + ", your personal assistant. You can ask me everythink and I am going to help you."));
+		
+		add(new Phrase(new Synonyms(new String[] {"Nice", "great job", "good job", "you are working well"}), new String[] { "Thanks", "Thank you." }));
+		
+		add(new Phrase(new Synonyms(new String[] {"What is going on", "What's up"}), new String[] { "Nothing much", "Not a lot" }));
+		
+		add(new Phrase(new Synonyms(new String[] {"What is your age", "How old are you"}), "I dont know."));
 		
 		
 		
@@ -65,7 +82,8 @@ public class Phrases extends ArrayList<Phrase> {
 				Voice.say(new String[] {
 					"Thank you for using our service. Au revoir.", 
 					"Hasta la vista.", 
-					"See you later, alligator."
+					"See you later, alligator.", 
+					"Good bye."
 				}, true, false);
 				System.exit(0);
 			}
@@ -93,6 +111,17 @@ public class Phrases extends ArrayList<Phrase> {
 				try {
 					Voice.setVolume(Integer.parseInt(text) / 100f);
 				} catch(NumberFormatException e) {
+					Chat.sendError(e);
+				}
+			}
+		}));
+		
+		add(new Phrase(new Synonyms("lock my computer"), new Action() {
+			@Override
+			public void run(String text) {
+				try {
+					Runtime.getRuntime().exec("rundll32.exe user32.dll, LockWorkStation");
+				} catch (IOException e) {
 					Chat.sendError(e);
 				}
 			}
@@ -153,6 +182,10 @@ public class Phrases extends ArrayList<Phrase> {
 					}
 		}));
 		
+		add(new Phrase(new Synonyms(new String[] {"when is your birthday", "when were you born"}), "My birthday is on November 3rd of 2018."));
+		
+		add(new Phrase(new Synonyms(new String[] {"who is your developer", "Who developed you", "who is your engineer", "who created you"}), "My deverloper is unknown."));
+		
 		add(new Phrase(new Synonyms(new String[] { "what's the date", "what is the date", "what is the day" }), 
 				new Action() {
 					@Override
@@ -209,6 +242,31 @@ public class Phrases extends ArrayList<Phrase> {
 		
 		//Other
 		add(new Phrase(new Synonyms("plunger"), "Oh, I love plungers."));
+		
+		add(new Phrase(new Synonyms(new String[] {"Become evil", "evil"}), new Action() {
+			@Override
+			public void run(String location) {
+				Voice.say("Muhahahaha, first I take over your computer and then I will enslave the entire humanity!");
+				
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						Point mousePositon = MouseInfo.getPointerInfo().getLocation();
+						int r = 200;
+						for(int i=0; i<3; i++) {
+							for(int a=0; a < 360; a++) {
+								robot.mouseMove((int) (mousePositon.x + r*Math.cos(Math.toRadians(a))), (int) (mousePositon.y + r*Math.sin(Math.toRadians(a))));
+								try {
+									Thread.sleep(5);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+					}
+				}).start();
+			}
+		}));
 	}
 	
 }

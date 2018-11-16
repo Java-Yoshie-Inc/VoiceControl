@@ -9,7 +9,7 @@ import tools.Wikipedia;
 import voice.Voice;
 
 public class StandardSkill extends Skill {
-
+	
 	public StandardSkill(Bot bot) {
 		super(bot, "Standard Skill of Voice Control");
 	}
