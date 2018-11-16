@@ -82,8 +82,7 @@ public class Phrases extends ArrayList<Phrase> {
 				Voice.say(new String[] {
 					"Thank you for using our service. Au revoir.", 
 					"Hasta la vista.", 
-					"See you later, alligator.", 
-					"Good bye."
+					"See you later, alligator."
 				}, true, false);
 				System.exit(0);
 			}
@@ -171,6 +170,8 @@ public class Phrases extends ArrayList<Phrase> {
 		
 		
 		//Simple Questions
+		add(new Phrase(new Synonyms(new String[] {"Dou you", "Can you", "Are you", "Would you"}), "No"));
+		
 		add(new Phrase(new Synonyms(new String[] { "what's the time", "what is the time", "what time is it", "how late is it" }), 
 				new Action() {
 					@Override
@@ -209,12 +210,7 @@ public class Phrases extends ArrayList<Phrase> {
 			}
 		}));
 		
-		add(new Phrase(new Synonyms(new String[] {"what are your hobbies", "what hobbies do you have"}), new Action() {
-			@Override
-			public void run(String term) {
-				Voice.say("My only job is to serve you.");
-			}
-		}));
+		add(new Phrase(new Synonyms(new String[] {"what are your hobbies", "what hobbies do you have"}), "My only job is to serve you."));
 		
 		add(new Phrase(new Synonyms(new String[] {"where is", "where can I find", "where are"}), new Action() {
 			@Override

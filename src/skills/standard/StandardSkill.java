@@ -34,7 +34,7 @@ public class StandardSkill extends Skill {
 				phrase = templatePhrase;
 			}
 		}
-		if (phrase != null && similarity >= 0.3f) {
+		if (phrase != null && similarity >= 0.5f) {
 			System.out.println(similarity + " " + phrase);
 			phrase.run(input.toLowerCase());
 		} else {
