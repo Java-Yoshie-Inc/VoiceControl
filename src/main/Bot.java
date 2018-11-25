@@ -13,7 +13,7 @@ import voice.Voice;
 public class Bot {
 	
 	public enum Source {Chat, SpeechRecognition}
-	private final ActivationWord activationWord = ActivationWord.Computer;
+	private final ActivationWord activationWord = ActivationWord.Hey;
 	private final Phrases PHRASES = new Phrases(this);
 	private final Skills SKILLS = new Skills(this);
 	
