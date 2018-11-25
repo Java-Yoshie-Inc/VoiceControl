@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,18 +18,18 @@ import javax.swing.ScrollPaneConstants;
 
 public class Chat {
 	
-	public enum Sender {User, Bot}
+	public enum Sender {User, Bot, Error}
 	
 	private static JFrame frame;
 	private static JPanel panel;
 	private static JPanel panel2;
 	private static JTextArea textArea;
-	private static Computer computer;
+	private static SpeechRecognizeEvent EVENT;
 	private static JTextField inputField;
 	
-	public static void init(Computer computer) {
+	public static void init(SpeechRecognizeEvent event) {
 		createFrame();
-		Chat.computer = computer;
+		Chat.EVENT = event;
 	}
 	
 	private static void createFrame() {
@@ -53,7 +55,11 @@ public class Chat {
 		textArea.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		JScrollPane textAreaScrollPane = new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		textAreaScrollPane.setAutoscrolls(true);
+		textAreaScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+			public void adjustmentValueChanged(AdjustmentEvent e) {
+				e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+			}
+		});
 		panel.add(textAreaScrollPane, BorderLayout.CENTER);
 		
 		inputField = new JTextField();
@@ -80,13 +86,21 @@ public class Chat {
 	}
 	
 	public static void send(Sender sender, String message) {
-		textArea.setText(textArea.getText() + sender.toString() +  ": " + message + System.lineSeparator());
+		textArea.append(sender.toString() +  ": " + message + System.lineSeparator());
 	}
 	
 	private static void processInput() {
 		String input = inputField.getText();
 		inputField.setText("");
-		computer.say(input);
+		textArea.update(textArea.getGraphics());
+		inputField.update(inputField.getGraphics());
+		EVENT.say(input);
+		
+	}
+	
+	public static void sendError(Exception e) {
+		Chat.send(Sender.Error, e.getClass().getSimpleName() + " -> " + e.getMessage());
+		e.printStackTrace();
 	}
 	
 }

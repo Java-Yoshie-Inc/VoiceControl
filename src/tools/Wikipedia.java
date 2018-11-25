@@ -18,16 +18,11 @@ public class Wikipedia {
 
 	public static String getInformation(String term) throws UnsupportedEncodingException, IOException {
 		String searchText = term + " wikipedia";
-		System.out.println("Searching for " + term + "...");
-
-		Document google = Jsoup.connect("https://www.google.com/search?q=" + URLEncoder.encode(searchText, encoding))
-				.userAgent("Mozilla/5.0").get();
-
+		Document google = Jsoup.connect("https://www.google.com/search?q=" + URLEncoder.encode(searchText, encoding)).userAgent("Mozilla/5.0").get();
 		String wikipediaURL = google.getElementsByTag("cite").get(0).text();
-
+		
 		String wikipediaApiJSON = "https://www.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="
-				+ URLEncoder.encode(wikipediaURL.substring(wikipediaURL.lastIndexOf("/") + 1, wikipediaURL.length()),
-						encoding);
+				+ URLEncoder.encode(wikipediaURL.substring(wikipediaURL.lastIndexOf("/") + 1, wikipediaURL.length()), encoding);
 
 		HttpURLConnection httpcon = (HttpURLConnection) new URL(wikipediaApiJSON).openConnection();
 		httpcon.addRequestProperty("User-Agent", "Mozilla/5.0");
@@ -47,7 +42,7 @@ public class Wikipedia {
 		return result;
 	}
 	
-	public static String capitalize(String input) {
+	private static String capitalize(String input) {
 		return input.substring(0, 1).toUpperCase() + input.substring(1);
 	}
 
