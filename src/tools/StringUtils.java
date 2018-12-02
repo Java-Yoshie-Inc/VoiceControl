@@ -12,10 +12,6 @@ public class StringUtils {
 	public static final String[] MAGNITUDES = { "hundred", "thousand", "million", "point" };
 	public static final String[] ZERO = { "zero", "oh" };
 	
-	public static void main(String[] args) {
-		
-	}
-	
 	public static int getNumber(String input) {
 	    String result = "";
 	    String[] decimal = input.split(MAGNITUDES[3]);
